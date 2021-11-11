@@ -24,7 +24,7 @@ module.exports = (sequelize) => {
         },
         active: {
             type: DataTypes.BOOLEAN,
-            default: true
+            defaultValue: true
         },
         released: {
             type: DataTypes.DATE,
@@ -32,15 +32,15 @@ module.exports = (sequelize) => {
         },
         rating: {
             type: DataTypes.FLOAT,
-            allowNull: false,
+            allowNull: true,
         },
         reviews: {
             type: DataTypes.ARRAY(DataTypes.JSON),
-            allowNull: false,
+            allowNull: true,
         },
         idApi: {
             type: DataTypes.INTEGER,
-            allowNull: false,
+            allowNull: true,
         }
     });
 };
