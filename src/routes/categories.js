@@ -39,12 +39,12 @@ router.put('/:cat', async (req, res) => {
                 name: cat
             }
         });
-        if (find) {
+        if (find && find.isActive) {
             await find.update({isActive: false});
             await find.save();
             res.status(200).json(find);
         } else {
-            res.status(400).json({msg: "No existe la categoria buscada"})
+            res.sendStatus(400);
         }
     } catch (error) {
         console.error(error.message);
