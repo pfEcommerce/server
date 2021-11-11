@@ -5,9 +5,13 @@ const router = Router();
 
 const products = require('./products');
 const categories = require('./categories');
+const orders = require('./orders');
+const users = require('./user');
 
 router.use('/products', products);
 router.use('/categories', categories);
+router.use('/orders', orders);
+router.use('/users', users);
 
 
 module.exports = router;
