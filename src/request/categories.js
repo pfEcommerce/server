@@ -10,13 +10,23 @@ const apiCat = async () => {
             return {
                 id: e.id,
                 name: e.name,
-                games: e.games
+                games: e.games.map(e=>e.id)
             };
         });
         apiData.forEach(async e => {
-            await Category.create({
+            const catCreated = await Category.create({
                 idApi: e.id,
                 name: e.name
+            })
+            e.games.forEach (async o => {
+                const producto = await Product.findOne({
+                    where: {
+                        idApi: o
+                    }
+                })
+                if (producto !== null) {
+                    producto.addCategories(catCreated)
+                }
             })
         });
         return apiData;
