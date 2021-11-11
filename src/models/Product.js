@@ -30,14 +30,6 @@ module.exports = (sequelize) => {
             type: DataTypes.DATE,
             allowNull: false
         },
-        rating: {
-            type: DataTypes.FLOAT,
-            allowNull: true,
-        },
-        reviews: {
-            type: DataTypes.ARRAY(DataTypes.JSON),
-            allowNull: true,
-        },
         idApi: {
             type: DataTypes.INTEGER,
             allowNull: true,

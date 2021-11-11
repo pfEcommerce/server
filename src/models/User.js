@@ -20,6 +20,7 @@ module.exports = (sequelize) => {
                 isEmail: true
             },
             unique: true,
+            primaryKey:true,
             allowNull: false,
         },
         password: {
@@ -37,6 +38,6 @@ module.exports = (sequelize) => {
         photo: {
             type: DataTypes.TEXT,
             defaultValue: '',
-        }
+        },
     });
 };

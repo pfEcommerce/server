@@ -6,7 +6,7 @@ const router = Router();
 
 // Get general
 router.post('/', async (req, res) => {
-    const { productId, price, userId, date } = req.body;
+    const { productId, price, userId } = req.body;
     try {
         // Busqueda user
         const user = await User.findOne({
@@ -23,7 +23,6 @@ router.post('/', async (req, res) => {
         // New Order
         const newOrder = await Order.create({
             price,
-            date
         });
         // Relaciones
         await newOrder.setProduct(searchProduct);
