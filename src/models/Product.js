@@ -19,12 +19,28 @@ module.exports = (sequelize) => {
             allowNull: false,
         },
         image: {
-            type: DataTypes.TEXT,
+            type: DataTypes.STRING,
             allowNull: false,
         },
         active: {
             type: DataTypes.BOOLEAN,
             default: true
+        },
+        released: {
+            type: DataTypes.DATE,
+            allowNull: false
+        },
+        rating: {
+            type: DataTypes.FLOAT,
+            allowNull: false,
+        },
+        reviews: {
+            type: DataTypes.ARRAY(DataTypes.JSON),
+            allowNull: false,
+        },
+        idApi: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
         }
     });
 };
