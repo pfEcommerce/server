@@ -1,10 +1,11 @@
 const { apiCat } = require('./categories');
 const { apiProduct } = require('./products');
+const { Product, Category } = require('../db');
 
 const allData = async () => {
-    const cats = await apiCat();
     const prods = await apiProduct();
-    return cats.concat(prods)
+    const cats = await apiCat();
+    return
 };
 
 module.exports = { allData }
