@@ -1,13 +1,10 @@
-const server = require('express').Router();
+const { Router } = require('express');
 const { User } = require('../db');
 require('dotenv').config();
 
-server.get('/', async (req, res) => {
-    try {
-        res.send('Hello')
-    } catch (err) {
-        console.log(err)
-    }
-});
+const router = Router();
 
-module.exports = server;
+
+
+
+module.exports = router;

@@ -20,7 +20,6 @@ module.exports = (sequelize) => {
                 isEmail: true
             },
             unique: true,
-            primaryKey:true,
             allowNull: false,
         },
         password: {
