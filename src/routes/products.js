@@ -4,6 +4,7 @@ const { Product, Category } = require('../db');
 require('dotenv').config();
 const router = Router();
 
+// Get general
 router.get('/', async (req, res) => {
     try {
         const data = await Product.findAll({
@@ -17,6 +18,26 @@ router.get('/', async (req, res) => {
     catch (err) {
         console.log(err)
     }
+});
+
+// Product especifico
+router.get('/:id', async (req, res) => {
+    const paramsId = req.params.id;
+    try {
+        const data = await Product.findOne({
+            where: {
+                id: paramsId
+            }, 
+            include: {
+                model: Category,
+                attributes: ['name']
+            }
+        });
+        res.status(200).json(data)
+    }
+    catch (err) {
+        console.log(err)
+    };
 });
 
 
