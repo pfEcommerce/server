@@ -40,5 +40,32 @@ router.get('/:id', async (req, res) => {
     };
 });
 
+// Post de producto
+router.post('/', async (req, res) => {
+    const { name, released, image, price, stock, description, categories } = req.body;
+    try {
+        const created = await Product.create({
+            name,
+            released,
+            image,  
+            price, 
+            stock,  
+            description, 
+        });
+        categories.forEach(async e => {
+            const categoria = await Category.findOne({
+                where: {
+                    name: e
+                }
+            });
+            categoria.addProducts(created);
+        });
+        res.status(200).json(created)
+    }
+    catch (err) {
+        console.error(err.message)
+    };
+});    
+
 
 module.exports = router;

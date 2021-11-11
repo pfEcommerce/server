@@ -28,15 +28,15 @@ module.exports = (sequelize) => {
         },
         roleAdmin: {
             type: DataTypes.BOOLEAN,
-            default: false,
+            defaultValue: false,
         },
         active: {
             type: DataTypes.BOOLEAN,
-            default: true,
+            defaultValue: true,
         },
         photo: {
             type: DataTypes.TEXT,
-            default: '',
+            defaultValue: '',
         }
     });
 };
