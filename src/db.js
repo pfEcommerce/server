@@ -52,13 +52,13 @@ const { Category, Product, Order, User } = sequelize.models;
 // User.belongsToMany(Product, {through: "user_products"})
 // Product.belongsToMany(User, {through: "user_products"})
 
-Product.belongsToMany(Category, {through: 'product_category'});
-Category.belongsToMany(Product, {through: 'product_category'});
+Product.belongsToMany(Category, {through: 'product_category', timestamps: false });
+Category.belongsToMany(Product, {through: 'product_category', timestamps: false });
 
 Product.hasMany(Order);
 Order.belongsTo(Product);
 
-User.hasMany(Order, {as:'orden', foreignKey:"owner_id"});
+User.hasMany(Order, {as:'orden', foreignKey:"owner_id" });
 Order.belongsTo(User, {as:"owner"});
 
 module.exports = {
