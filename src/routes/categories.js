@@ -30,5 +30,26 @@ router.post('/:cat', async (req, res) => {
     }
 });
 
+// Remove category
+router.put('/:cat', async (req, res) => {
+    const cat = req.params.cat;
+    try {
+        const find = await Category.findOne({
+            where: {
+                name: cat
+            }
+        });
+        if (find) {
+            await find.update({isActive: false});
+            await find.save();
+            res.status(200).json(find);
+        } else {
+            res.status(400).json({msg: "No existe la categoria buscada"})
+        }
+    } catch (error) {
+        console.error(error.message);
+    }
+});
+
 
 module.exports = router;
