@@ -67,5 +67,26 @@ router.post('/', async (req, res) => {
     };
 });
 
+// Remove Product
+router.put('/:prod', async (req, res) => {
+    const prod = req.params.prod;
+    try {
+        const find = await Product.findOne({
+            where: {
+                id: prod
+            }
+        });
+        if (find && find.isActive) {
+            await find.update({isActive: false});
+            await find.save();
+            res.status(200).json(find);
+        } else {
+            res.sendStatus(400)
+        }
+    } catch (error) {
+        console.error(error.message);
+    }
+});
+
 
 module.exports = router;

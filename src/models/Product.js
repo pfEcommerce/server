@@ -22,7 +22,7 @@ module.exports = (sequelize) => {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        active: {
+        isActive: {
             type: DataTypes.BOOLEAN,
             defaultValue: true
         },
