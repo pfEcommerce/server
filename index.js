@@ -4,6 +4,7 @@ const e = require('express');
 const { allData } = require ('./src/request/allRequests');
 
 const testUsers = require('./testUsers');
+const testOrders = require('./testOrders');
 
 const server = require('./src/app.js');
 const { conn } = require('./src/db.js');
@@ -20,11 +21,23 @@ const cargaUsers = async () => {
     });
 };
 
+const cargaOrders = async () => {
+    const ordersPromise = testOrders.map( async (e) => {
+        const response = await axios.post(`${local}/orders/${e.emailUserTest}`, e)
+    return response
+    });
+    Promise.all(ordersPromise).then(() => {
+        return console.log("Orders cargados")
+    });
+};
+
+
 
 // Syncing all the models at once.
 conn.sync({ force: true }).then( async () => {
     await allData();
     await cargaUsers();
+    await cargaOrders();
     server.listen(3001, () => {
     console.log('%s listening at 3001'); // eslint-disable-line no-console
     });

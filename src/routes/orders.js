@@ -4,10 +4,9 @@ const { Product, Category, Order, User } = require('../db');
 require('dotenv').config();
 const router = Router();
 
-// Get general
 router.post('/:userEmail', async (req, res) => {
     const userEmail = req.params.userEmail;
-    const { productId, price } = req.body;
+    const { price, productId } = req.body;
     try {
         // Busqueda user
         const user = await User.findOne({
@@ -25,23 +24,17 @@ router.post('/:userEmail', async (req, res) => {
         const newOrder = await Order.create({
             price,
         });
-        // Relaciones
-        await newOrder.setProduct(searchProduct);
-        await newOrder.setUser(user);
-        // Resta de stock
         const less = await Product.findOne({
             where: {
                 id: productId
             }
         });
-        let currentStock = less.dataValues.stock;
-        let currentSolds = less.dataValues.solds;
-        await less.update({
-            stock: --currentStock
-        });
-        await less.update({
-            solds: ++currentSolds
-        });
+        let currentStock = await less.increment('stock',{by:1})
+        let currentSolds = await less.increment('solds',{by:1})
+        // Relaciones
+        await newOrder.setProduct(searchProduct);
+        await newOrder.setUser(user);
+        // Resta de stock
         res.status(200).send(newOrder);
     }
     catch (err) {

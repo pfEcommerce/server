@@ -167,6 +167,13 @@ const testUsers = [{
 	"family_name": "Perez",
 	"email": "marcosadmin@gmail.com",
 	"loader":true
+},{
+	"roleAdmin": true,
+	"testGoogle": true,
+	"given_name": "Marcos",
+	"family_name": "MS3",
+	"email": "marcoss.g.perez@gmail.com",
+	"loader":true
 }]
 
 module.exports = testUsers 
