@@ -31,13 +31,17 @@ const cargaOrders = async () => {
     });
 };
 
+const allCharges = async  () => {
+    await allData();
+    await cargaUsers();
+    setTimeout(cargaOrders, 1000, "orders");
+};
+
 
 
 // Syncing all the models at once.
 conn.sync({ force: true }).then( async () => {
-    await allData();
-    await cargaUsers();
-    await cargaOrders();
+    allCharges();
     server.listen(3001, () => {
     console.log('%s listening at 3001'); // eslint-disable-line no-console
     });
