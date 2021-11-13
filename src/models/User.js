@@ -8,11 +8,11 @@ module.exports = (sequelize) => {
         },
         lastName: {
             type: DataTypes.STRING,
-            allowNull: false,
+            defaultValue: '',
         },
         phone: {
-            type: DataTypes.INTEGER,
-            allowNull: true,
+            type: DataTypes.TEXT,
+            defaultValue: '',
         },      
         email: {
             type: DataTypes.TEXT,
@@ -21,10 +21,6 @@ module.exports = (sequelize) => {
             },
             unique: true,
             primaryKey:true,
-            allowNull: false,
-        },
-        password: {
-            type: DataTypes.TEXT,
             allowNull: false,
         },
         roleAdmin: {
@@ -38,6 +34,10 @@ module.exports = (sequelize) => {
         photo: {
             type: DataTypes.TEXT,
             defaultValue: '',
+        },
+        isGoogle: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false,
         },
     });
 };
