@@ -5,13 +5,14 @@ require('dotenv').config();
 const router = Router();
 
 // Get general
-router.post('/', async (req, res) => {
-    const { productId, price, userId } = req.body;
+router.post('/:userEmail', async (req, res) => {
+    const userEmail = req.params.userEmail;
+    const { productId, price } = req.body;
     try {
         // Busqueda user
         const user = await User.findOne({
             where: {
-                id: userId
+                email: userEmail
             }
         });
         // Busqueda product
@@ -34,8 +35,12 @@ router.post('/', async (req, res) => {
             }
         });
         let currentStock = less.dataValues.stock;
+        let currentSolds = less.dataValues.solds;
         await less.update({
             stock: --currentStock
+        });
+        await less.update({
+            solds: ++currentSolds
         });
         res.status(200).send(newOrder);
     }

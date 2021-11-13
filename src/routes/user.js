@@ -14,7 +14,9 @@ router.post('/login', async (req, res) => {
             const userGoogle = await User.findOne({
                 where: {
                     email: email
-                }
+                }, include : [
+                    {model: Order, include: [{model:Product}]}
+                ]
             });
             if (userGoogle) {
                 console.log('search succes')
@@ -29,13 +31,22 @@ router.post('/login', async (req, res) => {
                     roleAdmin: roleAdmin?roleAdmin:false
                 });
                 console.log('created succes')
-                res.status(200).json(createUser)
+                const searchCreatedUser = await User.findOne({
+                    where: {
+                        email: email
+                    }, include : [
+                        {model: Order, include: [{model:Product}]}
+                    ]
+                });
+                res.status(200).json(searchCreatedUser)
             };
         } else {
             const userAuth = await User.findOne({
                 where: {
                     email: email
-                }
+                }, include : [
+                    {model: Order, include: [{model:Product}]}
+                ]
             });
             if (userAuth) {
                 console.log('search auth0 succes')
@@ -50,7 +61,14 @@ router.post('/login', async (req, res) => {
                         roleAdmin: roleAdmin
                     });
                     console.log('created auth0 succes')
-                    res.status(200).json(createAuthUser)
+                    const searchCreatedUser = await User.findOne({
+                        where: {
+                            email: email
+                        }, include : [
+                            {model: Order, include: [{model:Product}]}
+                        ]
+                    });
+                    res.status(200).json(searchCreatedUser)
                 }
                 else{
                     const createAuthUser = await User.create({
@@ -59,7 +77,14 @@ router.post('/login', async (req, res) => {
                         email: email,
                     });
                     console.log('created auth0 succes')
-                    res.status(200).json(createAuthUser)
+                    const searchCreatedUser = await User.findOne({
+                        where: {
+                            email: email
+                        }, include : [
+                            {model: Order, include: [{model:Product}]}
+                        ]
+                    });
+                    res.status(200).json(searchCreatedUser)
                 }
             };
         };
