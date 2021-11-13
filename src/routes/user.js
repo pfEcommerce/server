@@ -6,8 +6,8 @@ const router = Router();
 
 // Create user
 router.post('/login', async (req, res) => {
-    const { picture, email, sub, family_name, given_name, nickname } = req.body;
-    const isGoogle = sub.slice(0, 6);
+    const { picture, email, sub, family_name, given_name, nickname, testGoogle, roleAdmin, loader, phone } = req.body;
+    const isGoogle = sub?sub.slice(0, 6):testGoogle === true?'google':null;
     //console.log(req.body)
     try {
         if (isGoogle === 'google') {
@@ -17,17 +17,18 @@ router.post('/login', async (req, res) => {
                 }
             });
             if (userGoogle) {
-                //console.log('search succes')
+                console.log('search succes')
                 res.status(200).json(userGoogle)
             } else {
                 const createUser = await User.create({
                     firstName: given_name,
                     lastName: family_name,
-                    photo: picture,
+                    photo: picture?picture:'',
                     email: email,
                     isGoogle: true,
+                    roleAdmin: roleAdmin?roleAdmin:false
                 });
-                //console.log('created succes')
+                console.log('created succes')
                 res.status(200).json(createUser)
             };
         } else {
@@ -37,16 +38,29 @@ router.post('/login', async (req, res) => {
                 }
             });
             if (userAuth) {
-                //console.log('search auth0 succes')
+                console.log('search auth0 succes')
                 res.status(200).json(userAuth)
             } else {
-                const createAuthUser = await User.create({
-                    firstName: nickname,
-                    photo: picture,
-                    email: email,
-                });
-                //console.log('created auth0 succes')
-                res.status(200).json(createAuthUser)
+                if (loader) {
+                    const createAuthUser = await User.create({
+                        firstName: given_name,
+                        lastName: family_name,
+                        email: email,
+                        phone: phone,
+                        roleAdmin: roleAdmin
+                    });
+                    console.log('created auth0 succes')
+                    res.status(200).json(createAuthUser)
+                }
+                else{
+                    const createAuthUser = await User.create({
+                        firstName: nickname,
+                        photo: picture,
+                        email: email,
+                    });
+                    console.log('created auth0 succes')
+                    res.status(200).json(createAuthUser)
+                }
             };
         };
     } catch (error) {
