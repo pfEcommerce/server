@@ -27,7 +27,7 @@ module.exports = (sequelize) => {
             defaultValue: true
         },
         released: {
-            type: DataTypes.DATE,
+            type: DataTypes.STRING,
             allowNull: false
         },
         idApi: {
