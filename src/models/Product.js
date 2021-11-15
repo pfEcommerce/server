@@ -33,6 +33,15 @@ module.exports = (sequelize) => {
         idApi: {
             type: DataTypes.INTEGER,
             allowNull: true,
+        },
+        imgs: {
+            type: DataTypes.ARRAY(DataTypes.JSON),
+            allowNull: true,
+        },
+        platforms: {
+                type: DataTypes.ARRAY(DataTypes.JSON),
+                allowNull: true,
         }
+        
     });
 };
