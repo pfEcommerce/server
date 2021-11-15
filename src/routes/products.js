@@ -3,19 +3,32 @@ const { Router } = require('express');
 const { Product, Category, Opinion } = require('../db');
 require('dotenv').config();
 const router = Router();
+const { Op } = require('sequelize')
+
 
 // Get general
 router.get('/', async (req, res) => {
     try {
-        const data = await Product.findAll({
-            include: [
-                {model: Category,
-                attributes: ['name']},
-                {model: Opinion, 
-                attributes: ['content', 'revRating']}
-            ]
-        })
-        res.status(200).json(data)
+        if (!req.query.name) {
+            const data = await Product.findAll({
+                include: [
+                    {model: Category,
+                    attributes: ['name']},
+                    {model: Opinion, 
+                    attributes: ['content', 'revRating']}
+                ]
+            })
+            res.status(200).json(data)
+        }
+        else {
+            const gameBd = await Product.findAll({
+                where: {name: {[Op.iLike]: '%' + req.query.name + '%'}}
+            });
+            let private = gameBd.map(p => 
+                p.dataValues
+            );
+            res.status(200).json(private)
+        }
     }
     catch (err) {
         console.log(err)
