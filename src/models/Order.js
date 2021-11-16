@@ -3,12 +3,12 @@ const { DataTypes, DATE } = require('sequelize');
 module.exports = (sequelize) => {
     sequelize.define('order', {
         price: {
-            type: DataTypes.FLOAT,
+            type: DataTypes.TEXT,
             allowNull: false,
         },
-        paymentId: {
+        /* paymentId: {
             type: DataTypes.TEXT,
             allowNull: true,
-        },
+        }, */
     });
 };
