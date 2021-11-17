@@ -28,23 +28,25 @@ router.post('/:userEmail', async (req, res) => {
         }
     });
     
-    
+    const finalOrders = dataOrders.map(e => ({
+        title: e.productId,
+        unit_price: Number.parseFloat(e.dataValues.price),
+        quantity: 1
+    }))
+    console.log(finalOrders)
     const preference = {
         items: [
-            dataOrders.forEach(e => ({
-                title: e.dataValues.productId,
-                unit_price: Number.parseFloat(e.dataValues.price),
-            }))
-        ],
-        back_urls: {
-            success: `${process.env.DOMAIN_URL}/success`,
-            pending: `${process.env.DOMAIN_URL}/pending`,
-            failure: `${process.env.DOMAIN_URL}/rejected`,
-        },
-        auto_return: 'approved',
+            {
+               title: finalOrders.title,
+               unit_price: finalOrders[0].unit_price,
+               quantity: 1
+            }
+        ]
     }
+    
     let acc = 0
     dataOrders.forEach(e => acc = acc + Number.parseFloat(e.dataValues.price))
+    console.log(acc)
     const payment_data = {
         transaction_amount: acc,
         token,
@@ -54,19 +56,17 @@ router.post('/:userEmail', async (req, res) => {
         issuer_id,
         payer
     }
-    mercadopago.payment
-        .save(payment_data)
-        .then((r) => {
-        
-            return res.status(r.status).json({
-                status: r.body.status,
-                status_detail: r.body.detail,
-                id: r.body.id
-            })
-        })
-
-
-    res.send('success')
+    mercadopago.preferences.create(preference)
+    .then(function(response){
+        console.log(response.body)
+        res.json({
+            id: response.body.id,
+            sandbox_init_point: response.body.sandbox_init_point
+        });
+    }).catch(function(error){
+        console.log(error)
+    });
+    
 })
 
 router.get('/feedback', function(req, res) {

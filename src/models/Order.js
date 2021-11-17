@@ -6,9 +6,9 @@ module.exports = (sequelize) => {
             type: DataTypes.TEXT,
             allowNull: false,
         },
-        /* paymentId: {
+        paymentId: {
             type: DataTypes.TEXT,
             allowNull: true,
-        }, */
+        }, 
     });
 };
