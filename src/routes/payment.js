@@ -1,5 +1,5 @@
 const { default: axios } = require('axios');
-const { Router } = require('express');
+const { Router, response } = require('express');
 require('dotenv').config();
 const router = Router();
 const { Order, User } = require('../db');
@@ -13,7 +13,7 @@ mercadopago.configure({
 router.post('/:userEmail', async (req, res) => {
    
     const { userEmail } = req.params
-    const { transaction_amount, token, description, installments, payment_method_id, issuer_id, payer } = req.body
+    
 
     const user = await User.findOne({
         where: {
@@ -33,22 +33,68 @@ router.post('/:userEmail', async (req, res) => {
         unit_price: Number.parseFloat(e.dataValues.price),
         quantity: 1
     }))
+    let acc = 0
+    finalOrders.forEach(e => acc = acc + Number.parseFloat(e.unit_price))
     console.log(finalOrders)
     const preference = {
         items: [
             {
                title: finalOrders.title,
-               unit_price: finalOrders[0].unit_price,
+               unit_price: acc,
                quantity: 1
-            }
-        ]
+            },
+        
+        ],
+        back_urls: {
+            "success": "http://localhost:3000/payment",
+            "failure": "http://localhost:3000/payment",
+            "pending": "http://www.pending.com"
+        },
     }
     
-    let acc = 0
-    dataOrders.forEach(e => acc = acc + Number.parseFloat(e.dataValues.price))
-    console.log(acc)
+    
+   
+    mercadopago.preferences.create(preference)
+    .then(function(response){
+        dataOrders.forEach(async e => await e.update({
+            paymentId: response.body.id
+        }))
+        res.json({
+            id: response.body.id
+        })
+    }).catch(function(error){
+        console.log(error)
+    });
+    
+})
+
+router.get('/:paymentId', async (req, res) => {
+    const { paymentId } = req.params
+    const user = await User.findOne({
+        where: {
+            email: userEmail
+        }
+    });
+
+    const dataOrders = await Order.findAll({
+        where: {
+            userEmail: user.email,
+            paymentId
+        }
+    });
+
+    if(dataOrders){
+        res.send(dataOrders.paymentId)
+    } else {
+        res.send('Not found')
+    }
+   
+})
+
+router.get('/mypurchases', function(req, res) {
+    const { transaction_amount, token, description, installments, payment_method_id, issuer_id, payer } = req.body
+
     const payment_data = {
-        transaction_amount: acc,
         token,
         description: 'payment',
         installments,
@@ -56,26 +102,8 @@ router.post('/:userEmail', async (req, res) => {
         issuer_id,
         payer
     }
-    mercadopago.preferences.create(preference)
-    .then(function(response){
-        console.log(response.body)
-        res.json({
-            id: response.body.id,
-            sandbox_init_point: response.body.sandbox_init_point
-        });
-    }).catch(function(error){
-        console.log(error)
-    });
-    
-})
-
-router.get('/feedback', function(req, res) {
-
-	res.json({
-		Payment: req.query.payment_id,
-		Status: req.query.status,
-		MerchantOrder: req.query.merchant_order_id
-	});
+    res.status(200).json(payment_data)
+	
 });
 
 
