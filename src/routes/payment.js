@@ -22,23 +22,31 @@ router.post('/:userEmail', async (req, res) => {
     });
     
 
-    const preference = await Order.findAll({
+    const dataOrders = await Order.findAll({
         where: {
             userEmail: user.email
         }
     });
-        
-    console.log(preference)
     
-    const data = preference.map(e => ({
-        price: e.price,
-        id: e.id
-
-    }))
     
-
+    const preference = {
+        items: [
+            dataOrders.forEach(e => ({
+                title: e.dataValues.productId,
+                unit_price: Number.parseFloat(e.dataValues.price),
+            }))
+        ],
+        back_urls: {
+            success: `${process.env.DOMAIN_URL}/success`,
+            pending: `${process.env.DOMAIN_URL}/pending`,
+            failure: `${process.env.DOMAIN_URL}/rejected`,
+        },
+        auto_return: 'approved',
+    }
+    let acc = 0
+    dataOrders.forEach(e => acc = acc + Number.parseFloat(e.dataValues.price))
     const payment_data = {
-        transaction_amount,
+        transaction_amount: acc,
         token,
         description: 'payment',
         installments,
