@@ -8,6 +8,7 @@ const router = Router();
 router.post('/:userEmail', async (req, res) => {
     const userEmail = req.params.userEmail;
     const { content, revRating, prodId } = req.body;
+    
     try {
         const searchUser = await User.findOne({
             where: {
@@ -19,6 +20,7 @@ router.post('/:userEmail', async (req, res) => {
                 id: prodId
             }
         });
+        
         if (searchUser && searchProduct){
             const generateOpinion = await Opinion.create({
                 content,
@@ -27,13 +29,13 @@ router.post('/:userEmail', async (req, res) => {
             await searchUser.addOpinion(generateOpinion);
             await searchProduct.addOpinion(generateOpinion);
             await generateOpinion.setProduct(searchProduct);
-            res.status(200).send('Succes');
+            res.status(200).send('Success');
         } else {
             res.status(400).send('Wrong email')
         }
     }
     catch (err) {
-        console.log(err)
+        console.error(err.message)
     };
 });
 
