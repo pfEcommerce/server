@@ -7,7 +7,7 @@ const router = Router();
 // Post opinion
 router.post('/:userEmail', async (req, res) => {
     const userEmail = req.params.userEmail;
-    const { content, revRating, prodId } = req.body;
+    const { content, revRating, prodId, name } = req.body;
     try {
         const searchUser = await User.findOne({
             where: {
@@ -21,6 +21,7 @@ router.post('/:userEmail', async (req, res) => {
         });
         if (searchUser && searchProduct){
             const generateOpinion = await Opinion.create({
+                name,
                 content,
                 revRating
             });
