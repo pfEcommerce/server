@@ -15,7 +15,7 @@ router.get('/', async (req, res) => {
                     {model: Category,
                     attributes: ['name']},
                     {model: Opinion, 
-                    attributes: ['content', 'revRating']}
+                    attributes: ['content', 'revRating','name']}
                 ]
             })
             res.status(200).json(data)
@@ -47,7 +47,7 @@ router.get('/:id', async (req, res) => {
                 {model: Category,
                 attributes: ['name']},
                 {model: Opinion, 
-                attributes: ['content', 'revRating']}
+                attributes: ['content', 'revRating','name']}
                 ]
         });
         res.status(200).json(data)
