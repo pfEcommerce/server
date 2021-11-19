@@ -7,7 +7,7 @@ const router = Router();
 router.post('/:email', async (req, res) => {
     const email = req.params.email;
     const { price, idApi } = req.body;
-    
+    console.log(req.body)
     try {
         // Busqueda user
         const user = await User.findOne({
@@ -38,10 +38,10 @@ router.post('/:email', async (req, res) => {
         });
         if(newOrder){
             await newOrder.update({
-                status: 'completed'
+                status: 'created'
             })
         } 
-        console.log(newOrder)
+        
         
         /* let currentStock = await less.increment('stock',{by:1})
         let currentSolds = await less.increment('solds',{by:1}) */
