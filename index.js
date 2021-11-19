@@ -58,8 +58,8 @@ const allCharges = async  () => {
 
 
 // Syncing all the models at once.
-conn.sync({ force: false }).then(() => {
-    allCharges();
+conn.sync({ force: false }).then(async () => {
+    await allCharges();
     server.listen(process.env.PORT, () => {
       console.log(`%s listening`); // eslint-disable-line no-console
     });
