@@ -12,8 +12,6 @@ const { conn } = require('./src/db.js');
 const dotenv = require ('dotenv');
 dotenv.config();
 
-axios.defaults.baseURL = 'http://localhost:3001';
-
 if(process.env.PORT == 3001){
     local = "http://localhost:3001";
   }else{

@@ -1,11 +1,10 @@
 const { default: axios } = require('axios');
-const { Router } = require('express');
 const { Opinion, Product, User } = require('../db');
 require('dotenv').config();
-const router = Router();
+const server = require('express').Router();
 
 // Post opinion
-router.post('/:userEmail', async (req, res) => {
+server.post('/:userEmail', async (req, res) => {
     const userEmail = req.params.userEmail;
     const { content, revRating, prodId, name } = req.body;
     try {
@@ -39,4 +38,4 @@ router.post('/:userEmail', async (req, res) => {
 });
 
 
-module.exports = router;
+module.exports = server;
