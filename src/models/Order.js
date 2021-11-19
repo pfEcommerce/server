@@ -10,5 +10,9 @@ module.exports = (sequelize) => {
             type: DataTypes.TEXT,
             allowNull: true,
         }, 
+        status: {
+            type: DataTypes.ENUM('pending', 'completed'),
+            defaultValue: 'pending'
+        }
     });
 };

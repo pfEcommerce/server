@@ -6,7 +6,8 @@ const router = Router();
 
 router.post('/:email', async (req, res) => {
     const email = req.params.email;
-    const { price, productId } = req.body;
+    const { price, idApi } = req.body;
+    
     try {
         // Busqueda user
         const user = await User.findOne({
@@ -14,25 +15,36 @@ router.post('/:email', async (req, res) => {
                 email: email
             }
         });
+        
         // Busqueda product
         const searchProduct = await Product.findOne({
             where: {
-                id: productId
+                idApi: idApi
             }
         });
+        
+        
         // New Order
         const newOrder = await Order.create({
             price,
         });
+        
         await newOrder.setProduct(searchProduct);
         await newOrder.setUser(user);
         const less = await Product.findOne({
             where: {
-                id: productId
+                id: idApi
             }
         });
-        let currentStock = await less.increment('stock',{by:1})
-        let currentSolds = await less.increment('solds',{by:1})
+        if(newOrder){
+            await newOrder.update({
+                status: 'completed'
+            })
+        } 
+        console.log(newOrder)
+        
+        /* let currentStock = await less.increment('stock',{by:1})
+        let currentSolds = await less.increment('solds',{by:1}) */
         // Relaciones
         // Resta de stock
         res.status(200).send(newOrder);

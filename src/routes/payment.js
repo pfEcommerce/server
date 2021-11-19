@@ -33,39 +33,33 @@ router.post('/:userEmail', async (req, res) => {
         unit_price: Number.parseFloat(e.dataValues.price),
         quantity: 1
     }))
+
     let acc = 0
     finalOrders.forEach(e => acc = acc + Number.parseFloat(e.unit_price))
-    console.log(finalOrders)
+    
     const preference = {
         items: [
             {
-               title: finalOrders.title,
+               title: 'Your game/s',
                unit_price: acc,
                quantity: 1
             },
         
         ],
-        back_urls: {
-            "success": "http://localhost:3000/payment",
-            "failure": "http://localhost:3000/payment",
-            "pending": "http://www.pending.com"
-        },
+      
     }
     
     
+    const response = await mercadopago.preferences.create(preference)
+
+    dataOrders.forEach(async e => await e.update({
+        paymentId: response.body.id
+    }))
+        
+    res.json({
+        id: response.body.id
+    })
    
-    mercadopago.preferences.create(preference)
-    .then(function(response){
-        dataOrders.forEach(async e => await e.update({
-            paymentId: response.body.id
-        }))
-        res.json({
-            id: response.body.id
-        })
-    }).catch(function(error){
-        console.log(error)
-    });
-    
 })
 
 router.get('/:paymentId', async (req, res) => {
@@ -75,11 +69,11 @@ router.get('/:paymentId', async (req, res) => {
             email: userEmail
         }
     });
-
+    console.log(user)
     const dataOrders = await Order.findAll({
         where: {
             userEmail: user.email,
-            paymentId
+
         }
     });
 
@@ -89,22 +83,8 @@ router.get('/:paymentId', async (req, res) => {
         res.send('Not found')
     }
    
-})
+}) 
 
-router.get('/mypurchases', function(req, res) {
-    const { transaction_amount, token, description, installments, payment_method_id, issuer_id, payer } = req.body
-
-    const payment_data = {
-        token,
-        description: 'payment',
-        installments,
-        payment_method_id,
-        issuer_id,
-        payer
-    }
-    res.status(200).json(payment_data)
-	
-});
 
 
 
