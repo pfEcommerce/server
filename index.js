@@ -21,23 +21,33 @@ if(process.env.PORT == 3001){
   }
 
 const cargaUsers = async () => {
-    const usuariosPromise = testUsers.map( async (e) => {
-        const response = await axios.post(`${local}/users/login`, e)
-    return response
-    });
-    Promise.all(usuariosPromise).then(() => {
-        return console.log("Users cargados")
-    });
+    try {
+        const usuariosPromise = testUsers.map( async (e) => {
+            const response = await axios.post(`${local}/users/login`, e)
+        return response
+        });
+        Promise.all(usuariosPromise).then(() => {
+            return console.log("Users cargados")
+        });
+    } catch (error) {
+        console.log(error)
+    }
+
 };
 
 const cargaOrders = async () => {
-    const ordersPromise = testOrders.map( async (e) => {
-        const response = await axios.post(`${local}/orders/${e.emailUserTest}`, e)
-    return response
-    });
-    Promise.all(ordersPromise).then(() => {
-        return console.log("Orders cargados")
-    });
+    try {
+        const ordersPromise = testOrders.map( async (e) => {
+            const response = await axios.post(`${local}/orders/${e.emailUserTest}`, e)
+        return response
+        });
+        Promise.all(ordersPromise).then(() => {
+            return console.log("Orders cargados")
+        });
+    } catch (error) {
+        console.log(error)
+    }
+
 };
 
 const allCharges = async  () => {
