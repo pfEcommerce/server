@@ -9,6 +9,9 @@ const testOrders = require('./testOrders');
 const server = require('./src/app.js');
 const { conn } = require('./src/db.js');
 
+import dotenv from 'dotenv';
+dotenv.config();
+
 // const local = "http://localhost:3001";
 
 // const cargaUsers = async () => {
@@ -37,9 +40,11 @@ const { conn } = require('./src/db.js');
 //     setTimeout(cargaOrders, 1000, "orders");
 // };
 
+//allCharges();
 
 // Syncing all the models at once.
 conn.sync({ force: false }).then(() => {
-    //allCharges();
-    server.listen(process.env.PORT || 5000)
+    server.listen(process.env.PORT, () => {
+      console.log(`%s listening`); // eslint-disable-line no-console
+    });
   });
