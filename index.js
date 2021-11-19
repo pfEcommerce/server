@@ -9,7 +9,7 @@ const testOrders = require('./testOrders');
 const server = require('./src/app.js');
 const { conn } = require('./src/db.js');
 
-import dotenv from 'dotenv';
+const dotenv = require ('dotenv');
 dotenv.config();
 
 axios.defaults.baseURL = 'http://localhost:3001';

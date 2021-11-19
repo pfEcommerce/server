@@ -9,8 +9,6 @@ require('./db.js');
 
 const server = express();
 
-server.name = 'API';
-
 server.use(cookieParser());
 server.use(morgan('dev'));
 server.use(express.json());
