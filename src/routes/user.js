@@ -25,7 +25,7 @@ router.post('/login', async (req, res) => {
                 const createUser = await User.create({
                     firstName: given_name,
                     lastName: family_name,
-                    photo: picture?picture:'',
+                    photo: picture,
                     email: email,
                     isGoogle: true,
                     roleAdmin: roleAdmin?roleAdmin:false
