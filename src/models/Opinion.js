@@ -2,6 +2,10 @@ const { DataTypes, DATE } = require('sequelize');
 
 module.exports = (sequelize) => {
     sequelize.define('opinion', {
+        name: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
         content: {
             type: DataTypes.TEXT,
             allowNull: false

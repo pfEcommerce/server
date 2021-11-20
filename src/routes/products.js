@@ -1,21 +1,33 @@
 const { default: axios } = require('axios');
-const { Router } = require('express');
 const { Product, Category, Opinion } = require('../db');
 require('dotenv').config();
-const router = Router();
+const { Op } = require('sequelize')
+const server = require('express').Router();
+
 
 // Get general
-router.get('/', async (req, res) => {
+server.get('/', async (req, res) => {
     try {
-        const data = await Product.findAll({
-            include: [
-                {model: Category,
-                attributes: ['name']},
-                {model: Opinion, 
-                attributes: ['content', 'revRating']}
-            ]
-        })
-        res.status(200).json(data)
+        if (!req.query.name) {
+            const data = await Product.findAll({
+                include: [
+                    {model: Category,
+                    attributes: ['name']},
+                    {model: Opinion, 
+                    attributes: ['content', 'revRating','name']}
+                ]
+            })
+            res.status(200).json(data)
+        }
+        else {
+            const gameBd = await Product.findAll({
+                where: {name: {[Op.iLike]: '%' + req.query.name + '%'}}
+            });
+            let private = gameBd.map(p => 
+                p.dataValues
+            );
+            res.status(200).json(private)
+        }
     }
     catch (err) {
         console.log(err)
@@ -23,7 +35,7 @@ router.get('/', async (req, res) => {
 });
 
 // Product especifico
-router.get('/:id', async (req, res) => {
+server.get('/:id', async (req, res) => {
     const paramsId = req.params.id;
     try {
         const data = await Product.findOne({
@@ -34,7 +46,7 @@ router.get('/:id', async (req, res) => {
                 {model: Category,
                 attributes: ['name']},
                 {model: Opinion, 
-                attributes: ['content', 'revRating']}
+                attributes: ['content', 'revRating','name']}
                 ]
         });
         res.status(200).json(data)
@@ -45,7 +57,7 @@ router.get('/:id', async (req, res) => {
 });
 
 // Post de producto
-router.post('/', async (req, res) => {
+server.post('/', async (req, res) => {
     const { name, released, image, price, stock, description, categories } = req.body;
     try {
         const created = await Product.create({
@@ -72,7 +84,7 @@ router.post('/', async (req, res) => {
 });
 
 // Remove Product
-router.put('/:prod', async (req, res) => {
+server.put('/:prod', async (req, res) => {
     const prod = req.params.prod;
     try {
         const find = await Product.findOne({
@@ -93,4 +105,4 @@ router.put('/:prod', async (req, res) => {
 });
 
 
-module.exports = router;
+module.exports = server;
