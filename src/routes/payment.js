@@ -14,7 +14,7 @@ router.post('/:userEmail', async (req, res) => {
    
     const { userEmail } = req.params
     
-
+    
     const user = await User.findOne({
         where: {
             email: userEmail
@@ -56,7 +56,7 @@ router.post('/:userEmail', async (req, res) => {
         paymentId: response.body.id
     }))
         
-    res.json({
+    res.json(console.log(response.body.id), {
         id: response.body.id
     })
    
@@ -73,17 +73,18 @@ router.get('/:paymentId', async (req, res) => {
     const dataOrders = await Order.findAll({
         where: {
             userEmail: user.email,
-
+            paymentId
         }
     });
 
     if(dataOrders){
-        res.send(dataOrders.paymentId)
+        res.status(202).send(dataOrders.paymentId)
+
     } else {
-        res.send('Not found')
+        res.status(404).send('Order not found')
     }
    
-}) 
+})  
 
 
 
