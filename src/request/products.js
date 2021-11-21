@@ -39,22 +39,8 @@ const apiProduct = async () => {
             })
             
         }
-        
-
-        /* const dataApi = await api.data.results.map ( e => {
-            return {
-                name: e.name,
-                released: e.released,
-                image: e.background_image,
-                categories: e.genres,
-                price: getPrice(),
-                stock: getStock(),
-                idApi: e.id,
-                description: 'Como se ha comentado, el código de la respuesta original tiene un fallo al hacer operaciones con coma flotante, y es que se pierden decimales. Podemos solventarlo viendo si el número de decimales que el número tiene es menor o igual que el número de posiciones que hay que a truncar.'
-            };
-        }); */
         dataApi.forEach(async e => {
-            const producto = await Product.findOrCreate({
+            const producto = await Product.create({
                 where: {
                     name: e.name,
                     released: e.released,
