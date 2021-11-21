@@ -55,15 +55,17 @@ const apiProduct = async () => {
         }); */
         dataApi.forEach(async e => {
             const producto = await Product.findOrCreate({
-                name: e.name,
-                released: e.released,
-                image: e.image,
-                price: e.price,
-                stock: e.stock,
-                idApi: e.idApi,
-                description: e.description,
-                imgs:e.imgs,
-                platforms: e.platforms
+                where: {
+                    name: e.name,
+                    released: e.released,
+                    image: e.image,
+                    price: e.price,
+                    stock: e.stock,
+                    idApi: e.idApi,
+                    description: e.description,
+                    imgs:e.imgs,
+                    platforms: e.platforms
+                }
             });
         })
         return dataApi;
