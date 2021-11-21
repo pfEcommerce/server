@@ -18,12 +18,13 @@ const categories = require('./categories');
 const orders = require('./orders');
 const users = require('./user');
 const opinions = require('./opinions');
+const wish = require('./wish');
 
 router.use('/products', products);
 router.use('/categories', categories);
 router.use('/orders', orders);
 router.use('/users', users);
 router.use('/opinions', opinions);
-
+router.use('/wishes', wish);
 
 module.exports = router;

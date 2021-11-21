@@ -14,7 +14,9 @@ const apiCat = async () => {
         });
         apiData.forEach(async e => {
             const catCreated = await Category.FindOrCreate({
-                name: e.name
+                where: {
+                    name: e.name
+                }
             })
             e.games.forEach (async o => {
                 const producto = await Product.findOne({
