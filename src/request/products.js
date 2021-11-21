@@ -54,7 +54,7 @@ const apiProduct = async () => {
             };
         }); */
         dataApi.forEach(async e => {
-            const producto = await Product.create({
+            const producto = await Product.findOrCreate({
                 name: e.name,
                 released: e.released,
                 image: e.image,
