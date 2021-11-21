@@ -40,18 +40,16 @@ const apiProduct = async () => {
             
         }
         dataApi.forEach(async e => {
-            const producto = await Product.findOrCreate({
-                where: {
-                    name: e.name,
-                    released: e.released,
-                    image: e.image,
-                    price: e.price,
-                    stock: e.stock,
-                    idApi: e.idApi,
-                    description: e.description,
-                    imgs:e.imgs,
-                    platforms: e.platforms
-                }
+            const producto = await Product.create({
+                name: e.name,
+                released: e.released,
+                image: e.image,
+                price: e.price,
+                stock: e.stock,
+                idApi: e.idApi,
+                description: e.description,
+                imgs:e.imgs,
+                platforms: e.platforms
             });
         })
         return dataApi;
