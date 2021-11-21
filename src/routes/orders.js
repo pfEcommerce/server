@@ -41,7 +41,7 @@ server.post('/:email', async (req, res) => {
         console.log(err)
     }
 
-    router.get('/', async (req, res) => {
+    server.get('/', async (req, res) => {
         try{
             const allOrders = await Order.findAll();
             res.status(200).json(allOrders);
