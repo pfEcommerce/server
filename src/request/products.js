@@ -40,7 +40,7 @@ const apiProduct = async () => {
             
         }
         dataApi.forEach(async e => {
-            const producto = await Product.create({
+            const producto = await Product.findOrCreate({
                 where: {
                     name: e.name,
                     released: e.released,
