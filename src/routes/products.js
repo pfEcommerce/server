@@ -2,11 +2,11 @@ const { default: axios } = require('axios');
 const { Product, Category, Opinion } = require('../db');
 require('dotenv').config();
 const { Op } = require('sequelize')
-const server = require('express').Router();
+const router = require('express').Router();
 
 
 // Get general
-server.get('/', async (req, res) => {
+router.get('/', async (req, res) => {
     try {
         if (!req.query.name) {
             const data = await Product.findAll({
@@ -35,7 +35,7 @@ server.get('/', async (req, res) => {
 });
 
 // Product especifico
-server.get('/:id', async (req, res) => {
+router.get('/:id', async (req, res) => {
     const paramsId = req.params.id;
     try {
         const data = await Product.findOne({
@@ -57,7 +57,7 @@ server.get('/:id', async (req, res) => {
 });
 
 // Post de producto
-server.post('/', async (req, res) => {
+router.post('/', async (req, res) => {
     const { name, released, image, price, stock, description, categories } = req.body;
     try {
         const created = await Product.create({
@@ -84,7 +84,7 @@ server.post('/', async (req, res) => {
 });
 
 // Remove Product
-server.put('/:prod', async (req, res) => {
+router.put('/:prod', async (req, res) => {
     const prod = req.params.prod;
     try {
         const find = await Product.findOne({
@@ -105,4 +105,4 @@ server.put('/:prod', async (req, res) => {
 });
 
 
-module.exports = server;
+module.exports = router;

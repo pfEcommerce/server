@@ -7,7 +7,7 @@ module.exports = (sequelize) => {
             allowNull: false,
         },
         paymentId: {
-            type: DataTypes.TEXT,
+            type: DataTypes.STRING,
             allowNull: true,
         }, 
         status: {

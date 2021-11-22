@@ -1,17 +1,17 @@
 const testOrders =[
     {
-        "price": 6,
+         "price": 0,
         "emailUserTest":"hildegaard.hachmin@gmail.com",
         "id":2
     },{
-        "price": 15,
+        "price": 0,
         "emailUserTest":"hildegaard.hachmin@gmail.com",
         "id":5
     },{
-        "price": 3,
+        "price": 0,
         "emailUserTest":"hildegaard.hachmin@gmail.com",
         "id":4
-    },{
+    }, {
         "price": 20,
         "emailUserTest":"elena.dosia@gmail.com",
         "id":3
@@ -19,7 +19,7 @@ const testOrders =[
         "price": 25,
         "emailUserTest":"elena.dosia@gmail.com",
         "id":7
-    },{
+    },/* {
         "price": 1,
         "emailUserTest":"vevay.kermit@gmail.com",
         "id":8
@@ -27,7 +27,7 @@ const testOrders =[
         "price": 4,
         "emailUserTest":"vevay.kermit@gmail.com",
         "id":3
-    },{
+    } */,{
         "price": 7,
         "emailUserTest":"keelia.bebe@gmail.com",
         "id":4

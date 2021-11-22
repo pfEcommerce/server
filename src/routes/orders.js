@@ -1,13 +1,13 @@
 const { default: axios } = require('axios');
 const { Product, Category, Order, User } = require('../db');
 require('dotenv').config();
-const server = require('express').Router();
+const router = require('express').Router();
 
 
-server.post('/:email', async (req, res) => {
+router.post('/:email', async (req, res) => {
     const email = req.params.email;
-    const { price, productId } = req.body;
-    console.log(req.body)
+    const { price, id } = req.body;
+   
     try {
         // Busqueda user
         const user = await User.findOne({
@@ -19,7 +19,7 @@ server.post('/:email', async (req, res) => {
         // Busqueda product
         const searchProduct = await Product.findOne({
             where: {
-                id: productId
+                id
             }
         });
         
@@ -31,9 +31,10 @@ server.post('/:email', async (req, res) => {
         
         await newOrder.setProduct(searchProduct);
         await newOrder.setUser(user);
+        
         const less = await Product.findOne({
             where: {
-                id: productId
+                id
             }
         });
         if(newOrder){
@@ -48,10 +49,11 @@ server.post('/:email', async (req, res) => {
         // Relaciones
         // Resta de stock
         res.status(200).send(newOrder);
+        
     }
     catch (err) {
         console.log(err)
     }
 });
 
-module.exports = server;
+module.exports = router;
