@@ -66,7 +66,7 @@ server.post('/', async (req, res) => {
             }
         });
         if (search) {
-            return res.status(200).json(search)
+            return res.status(200).json({error: 'El juego ya existe'})
         };
         const created = await Product.create({
             name,
