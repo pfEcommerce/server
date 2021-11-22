@@ -35,7 +35,7 @@ const testOrders =[
         "price": 8,
         "emailUserTest":"keelia.bebe@gmail.com",
         "id":7
-    },{
+    },/* {
         "price": 9,
         "emailUserTest": "janey.nahum@gmail.com",
         "id":9
@@ -51,7 +51,7 @@ const testOrders =[
         "price": 9,
         "emailUserTest": "janey.nahum@gmail.com",
         "id":10
-    },{
+    } */,{
         "price": 4,
         "emailUserTest":"leontine.alexandr@gmail.com",
         "id":2
