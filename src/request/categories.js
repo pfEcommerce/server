@@ -13,6 +13,9 @@ const apiCat = async () => {
             };
         });
         apiData.forEach(async e => {
+            if (Category.findOne({where:{name:e.name}})) {
+                return
+            }
             const catCreated = await Category.create({
                 name: e.name
             })
