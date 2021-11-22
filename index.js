@@ -1,64 +1,70 @@
-const axios = require('axios');
-const e = require('express');
+const axios = require("axios");
+const e = require("express");
 
-const { allData } = require ('./src/request/allRequests');
+const {
+    allData
+} = require("./src/request/allRequests");
 
-const testUsers = require('./testUsers');
-const testOrders = require('./testOrders');
+const testUsers = require("./testUsers");
+const testOrders = require("./testOrders");
 
-const server = require('./src/app.js');
-const { conn } = require('./src/db.js');
+const server = require("./src/app.js");
+const {
+    conn
+} = require("./src/db.js");
 
-const dotenv = require ('dotenv');
+const dotenv = require("dotenv");
 dotenv.config();
 
-if(process.env.PORT == 3001){
+if (process.env.PORT == 3001) {
     local = "http://localhost:3001";
-  }else{
+} else {
     local = "https://scientiapfdeploy.herokuapp.com";
-  }
+}
 
 const cargaUsers = async () => {
     try {
-        const usuariosPromise = testUsers.map( async (e) => {
-            const response = await axios.post(`${local}/users/login`, e)
-        return response
+        const usuariosPromise = testUsers.map(async (e) => {
+            const response = await axios.post(`${local}/users/login`, e);
+            return response;
         });
         Promise.all(usuariosPromise).then(() => {
-            return console.log("Users cargados")
+            return console.log("Users cargados");
         });
     } catch (error) {
-        console.log(error)
+        console.log(error);
     }
-
 };
 
 const cargaOrders = async () => {
     try {
-        const ordersPromise = testOrders.map( async (e) => {
-            const response = await axios.post(`${local}/orders/${e.emailUserTest}`, e)
-        return response
+        const ordersPromise = testOrders.map(async (e) => {
+            const response = await axios.post(
+                `${local}/orders/${e.emailUserTest}`,
+                e
+            );
+            return response;
         });
         Promise.all(ordersPromise).then(() => {
-            return console.log("Orders cargados")
+            return console.log("Orders cargados");
         });
     } catch (error) {
-        console.log(error)
+        console.log(error);
     }
-
 };
 
-const allCharges = async  () => {
+const allCharges = async () => {
     await allData();
     await cargaUsers();
     setTimeout(cargaOrders, 1000, "orders");
 };
 
-
 // Syncing all the models at once.
-conn.sync({ force: false }).then(async () => {
+conn.sync({
+    force: false
+}).then(async () => {
     await allCharges();
     server.listen(process.env.PORT, () => {
-      console.log(`%s listening`); // eslint-disable-line no-console
+        console.log(`%s listening`); // eslint-disable-line no-console
     });
-  });
+});
