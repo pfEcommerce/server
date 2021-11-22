@@ -14,15 +14,17 @@ const apiProduct = async () => {
 
     const getDetails = async (e) => {
         const result = await axios.get(`https://api.rawg.io/api/games/${e.id}?key=${API_KEY}`);
-        
+        console.log('result.data.description_raw')
         return result.data.description_raw
     }
 
     try {
         const api = await axios.get(`https://api.rawg.io/api/games?key=${API_KEY}`);
-         const dataApi = [] 
 
-         for (let i = 0; i < api.data.results.length; i++) {
+        const dataApi = []
+
+        for (let i = 0; i < api.data.results.length; i++) {
+
             dataApi.push({
                 name: api.data.results[i].name,
                 released: api.data.results[i].released,
@@ -36,21 +38,7 @@ const apiProduct = async () => {
                 description: await getDetails(api.data.results[i])
             })
             
-        } 
-        
-
-        /* onst dataApi = await api.data.results.map ( e => {
-            return {
-                name: e.name,
-                released: e.released,
-                image: e.background_image,
-                categories: e.genres,
-                price: getPrice(),
-                stock: getStock(),
-                idApi: e.id,
-                description: 'Como se ha comentado, el código de la respuesta original tiene un fallo al hacer operaciones con coma flotante, y es que se pierden decimales. Podemos solventarlo viendo si el número de decimales que el número tiene es menor o igual que el número de posiciones que hay que a truncar.'
-            };
-        });  */
+        }
         dataApi.forEach(async e => {
             const producto = await Product.create({
                 name: e.name,
@@ -64,7 +52,6 @@ const apiProduct = async () => {
                 platforms: e.platforms
             });
         })
-        
         return dataApi;
     } catch (err) {
         return console.log(err)

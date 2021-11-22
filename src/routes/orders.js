@@ -54,6 +54,16 @@ router.post('/:email', async (req, res) => {
     catch (err) {
         console.log(err)
     }
+
+    server.get('/', async (req, res) => {
+        try{
+            const allOrders = await Order.findAll();
+            res.status(200).json(allOrders);
+        }
+        catch (err) {
+            console.log(err)
+        }
+    });
 });
 
 module.exports = router;
