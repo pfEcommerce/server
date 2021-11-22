@@ -1,7 +1,7 @@
 const { default: axios } = require('axios');
 const { Router, response } = require('express');
 require('dotenv').config();
-const router = Router();
+const server = Router();
 const { Order, User } = require('../db');
 const mercadopago = require('mercadopago');
 
@@ -11,7 +11,7 @@ mercadopago.configure({
 }); 
 
 
-router.post('/', async (req, res) => {
+server.post('/', async (req, res) => {
    
     const { data } = req.body
     
@@ -36,5 +36,5 @@ router.post('/', async (req, res) => {
 })
 
 
-module.exports = router;
+module.exports = server;
 

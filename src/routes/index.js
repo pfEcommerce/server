@@ -2,12 +2,12 @@
 const { User } = require('../db');
 require('dotenv').config();
 const { Router } = require('express');
-const router = Router();
+const server = Router();
 const cors = require('cors');
 const session = require('express-session');
 
 
- router.use(
+ server.use(
     cors({
       origin: '*',
       credentials: true,
@@ -20,12 +20,12 @@ const users = require('./user');
 const opinions = require('./opinions');
 const payment = require('./payment');
 
-router.use('/products', products);
-router.use('/categories', categories);
-router.use('/orders', orders);
-router.use('/users', users);
-router.use('/opinions', opinions);
-router.use('/payment', payment);
+server.use('/products', products);
+server.use('/categories', categories);
+server.use('/orders', orders);
+server.use('/users', users);
+server.use('/opinions', opinions);
+server.use('/payment', payment);
 
 
-module.exports = router;
+module.exports = server;

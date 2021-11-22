@@ -1,11 +1,11 @@
 const { default: axios } = require('axios');
 const { Category } = require('../db');
 require('dotenv').config();
-const router = require('express').Router();
+const server = require('express').Router();
 
 
 // Get categorias
-router.get('/', async (req, res) => {
+server.get('/', async (req, res) => {
     try {
         const data = await Category.findAll()
         res.status(200).json(data)
@@ -16,7 +16,7 @@ router.get('/', async (req, res) => {
 });
 
 // Create category
-router.post('/:cat', async (req, res) => {
+server.post('/:cat', async (req, res) => {
     const cat = req.params.cat;
     try {
         const findCreated = await Category.findOrCreate({
@@ -31,7 +31,7 @@ router.post('/:cat', async (req, res) => {
 });
 
 // Remove category
-router.put('/:cat', async (req, res) => {
+server.put('/:cat', async (req, res) => {
     const cat = req.params.cat;
     try {
         const find = await Category.findOne({
@@ -52,4 +52,4 @@ router.put('/:cat', async (req, res) => {
 });
 
 
-module.exports = router;
+module.exports = server;

@@ -44,7 +44,7 @@ router.post('/:email', async (req, res) => {
         } 
         
         
-        let currentStock = await less.decrement('stock',{by:1})
+        let currentStock = await less.increment('stock',{by:1})
         let currentSolds = await less.increment('solds',{by:1}) 
         // Relaciones
         // Resta de stock

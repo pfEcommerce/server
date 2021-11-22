@@ -1,12 +1,12 @@
 const { default: axios } = require('axios');
 const { Product, Category, Order, User } = require('../db');
 require('dotenv').config();
-const router = require('express').Router();
+const server = require('express').Router();
 
 
 
 // Create user
-router.post('/login', async (req, res) => {
+server.post('/login', async (req, res) => {
     const { picture, email, sub, family_name, given_name, nickname, testGoogle, roleAdmin, loader, phone } = req.body;
     const isGoogle = sub?sub.slice(0, 6):testGoogle === true?'google':null;
     //console.log(req.body)
@@ -94,4 +94,4 @@ router.post('/login', async (req, res) => {
     };
 });
 
-module.exports = router;
+module.exports = server;
