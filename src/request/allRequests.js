@@ -1,11 +1,28 @@
-const { apiCat } = require('./categories');
-const { apiProduct } = require('./products');
-const { Product, Category } = require('../db');
+const {
+    apiCat
+} = require('./categories');
+const {
+    apiProduct
+} = require('./products');
+const {
+    Product,
+    Category
+} = require('../db');
 
 const allData = async () => {
-    const prods = await apiProduct();
-    const cats = await apiCat();
-    return
+
+    const prod = await Product.findAll()
+    const cat = await Category.findAll()
+
+    if (prod.length === 0) {
+        await apiProduct();
+    }
+    if (cat.length === 0) {
+        await apiCat();
+    }
+
 };
 
-module.exports = { allData }
+module.exports = {
+    allData
+}
