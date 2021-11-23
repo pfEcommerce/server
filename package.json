@@ -16,7 +16,8 @@
     "nodemon": "^2.0.15",
     "pg": "^8.7.1",
     "scripts": "^0.1.0",
-    "sequelize": "^6.9.0"
+    "sequelize": "^6.9.0",
+    "stripe": "^8.191.0"
   },
   "name": "server",
   "version": "1.0.0",
