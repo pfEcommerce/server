@@ -24,7 +24,8 @@ server.get('/:userEmail', async (req, res) => {
 
 server.post('/:email', async (req, res) => {
     const email = req.params.email;
-    const { productId } = req.body;
+    console.log(email)
+    const {id} = req.body
     try {
         // Busqueda user
         const user = await User.findOne({
@@ -35,7 +36,7 @@ server.post('/:email', async (req, res) => {
         // Busqueda product
         const searchProduct = await Product.findOne({
             where: {
-                id: productId
+                id
             }
         });
         if (!searchProduct || !user) {
