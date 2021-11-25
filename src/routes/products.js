@@ -56,61 +56,6 @@ server.get('/:id', async (req, res) => {
     };
 });
 
-// Post de producto
-server.post('/', async (req, res) => {
-    const { name, released, image, price, stock, description, categories } = req.body;
-    try {
-        const search = await Product.findOne({
-            where: {
-                name: name
-            }
-        });
-        if (search) {
-            return res.status(200).json({error: 'El juego ya existe'})
-        };
-        const created = await Product.create({
-            name,
-            released,
-            image,  
-            price, 
-            stock,  
-            description, 
-        });
-        categories.forEach(async e => {
-            const categoria = await Category.findOne({
-                where: {
-                    name: e
-                }
-            });
-            categoria.addProducts(created);
-        });
-        res.status(200).json(created)
-    }
-    catch (err) {
-        console.error(err.message)
-    };
-});
-
-// Remove Product
-server.put('/:prod', async (req, res) => {
-    const prod = req.params.prod;
-    try {
-        const find = await Product.findOne({
-            where: {
-                id: prod
-            }
-        });
-        if (find && find.isActive) {
-            await find.update({isActive: false});
-            await find.save();
-            res.status(200).json(find);
-        } else {
-            res.sendStatus(400)
-        }
-    } catch (error) {
-        console.error(error.message);
-    }
-});
 
 
 module.exports = server;
