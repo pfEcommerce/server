@@ -4,7 +4,24 @@ require('dotenv').config();
 const server = require('express').Router();
 
 
-// Get categorias
+server.get('/', async (req, res) => {
+    try {
+        const data = await User.findAll({
+            where: {
+                roleAdmin: true
+            }
+        })
+        if (data) {
+            res.status(200).json(data);
+        }
+        else {
+            res.status(400).send('Wrong message')
+        }
+    } catch (error) {
+        console.log(error);
+    }
+});
+
 server.put('/:userEmail', async (req, res) => {
     const { userEmail } = req.params;
     const { solicitud } = req.body;

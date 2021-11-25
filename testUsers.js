@@ -169,7 +169,9 @@ const testUsers = [{
 	"loader":true
 },{
 	"roleAdmin": true,
+	"superAdmin": true,
 	"testGoogle": true,
+	"picture":"https://lh3.googleusercontent.com/a-/AOh14Gg06o_D6pe2vwVCxCa5TTQzZY6BadrNFKBqXpq9Kw=s96-c",
 	"given_name": "Marcos",
 	"family_name": "MS3",
 	"email": "marcoss.g.perez@gmail.com",
