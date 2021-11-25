@@ -7,18 +7,19 @@ const cors = require('cors');
 const session = require('express-session');
 
 
-router.use(
+/* router.use(
     cors({
       origin: '*',
       credentials: true,
     })
-  );
+  ); */
 const products = require('./products');
 const categories = require('./categories');
 const orders = require('./orders');
 const users = require('./user');
 const opinions = require('./opinions');
 const wish = require('./wish');
+const payment = require('./payment');
 
 router.use('/products', products);
 router.use('/categories', categories);
@@ -26,5 +27,6 @@ router.use('/orders', orders);
 router.use('/users', users);
 router.use('/opinions', opinions);
 router.use('/wishes', wish);
+router.use('/payment', payment);
 
 module.exports = router;
