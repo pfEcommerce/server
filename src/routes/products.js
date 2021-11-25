@@ -14,7 +14,7 @@ server.get('/', async (req, res) => {
                     {model: Category,
                     attributes: ['name']},
                     {model: Opinion, 
-                    attributes: ['content', 'revRating','name']}
+                    attributes: ['content', 'revRating','name',"userEmail"]}
                 ]
             })
             res.status(200).json(data)
@@ -46,7 +46,7 @@ server.get('/:id', async (req, res) => {
                 {model: Category,
                 attributes: ['name']},
                 {model: Opinion, 
-                attributes: ['content', 'revRating','name']}
+                attributes: ['content', 'revRating','name',"userEmail"]}
                 ]
         });
         res.status(200).json(data)
