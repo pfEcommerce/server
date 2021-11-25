@@ -19,6 +19,7 @@ const orders = require('./orders');
 const users = require('./user');
 const opinions = require('./opinions');
 const wish = require('./wish');
+const spAdmin = require('./superAdmin');
 
 router.use('/products', products);
 router.use('/categories', categories);
@@ -26,5 +27,6 @@ router.use('/orders', orders);
 router.use('/users', users);
 router.use('/opinions', opinions);
 router.use('/wishes', wish);
+router.use('/spAdmin', spAdmin);
 
 module.exports = router;
