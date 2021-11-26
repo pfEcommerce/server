@@ -8,7 +8,7 @@ const server = require('express').Router();
 // Post de producto
 server.post('/pproduct/:userEmail', async (req, res) => {
     const userEmail = req.params.userEmail
-    const { name, released, image, price, stock, description, categories, request } = req.body;
+    const { name, released, image, price, stock, description, categories, request, descriptionHistory } = req.body;
     try {
         const search = await Product.findOne({
             where: {
@@ -41,7 +41,8 @@ server.post('/pproduct/:userEmail', async (req, res) => {
         });
         const newHistory = await History.create({
             request: request,
-            productId: created.id
+            productId: created.id,
+            description: descriptionHistory
         });
         await newHistory.setUser(user);
         res.status(200).json(created)
@@ -54,7 +55,7 @@ server.post('/pproduct/:userEmail', async (req, res) => {
 // Remove Product
 server.put('/rproduct/:userEmail', async (req, res) => {
     const userEmail = req.params.userEmail;
-    const { request, prod } = req.body;
+    const { request, prod, descriptionHistory } = req.body;
     try {
         const user = await User.findOne({
             where: {
@@ -73,7 +74,8 @@ server.put('/rproduct/:userEmail', async (req, res) => {
                     await find.save();
                     const newHistory = await History.create({
                         request: request,
-                        productId: prod
+                        productId: prod,
+                        description: descriptionHistory
                     });
                     await newHistory.setUser(user);
                     res.status(200).json(find);
@@ -87,7 +89,8 @@ server.put('/rproduct/:userEmail', async (req, res) => {
                     await find.save();
                     const newHistory = await History.create({
                         request: request,
-                        productId: prod
+                        productId: prod,
+                        description: descriptionHistory
                     });
                     await newHistory.setUser(user);
                     res.status(200).json(find);
@@ -107,7 +110,7 @@ server.put('/rproduct/:userEmail', async (req, res) => {
 // Remove Category
 server.put('/rcategories/:userEmail', async (req, res) => {
     const userEmail = req.params.userEmail;
-    const { request, cat } = req.body;
+    const { request, cat, descriptionHistory } = req.body;
     try {
         const user = await User.findOne({
             where: {
@@ -126,7 +129,8 @@ server.put('/rcategories/:userEmail', async (req, res) => {
                     await find.save();
                     const newHistory = await History.create({
                         request: request,
-                        categoryId: cat
+                        categoryId: cat,
+                        description: descriptionHistory
                     });
                     await newHistory.setUser(user);
                     res.status(200).json(find);
@@ -140,7 +144,8 @@ server.put('/rcategories/:userEmail', async (req, res) => {
                     await find.save();
                     const newHistory = await History.create({
                         request: request,
-                        categoryId: cat
+                        categoryId: cat,
+                        description: descriptionHistory
                     });
                     await newHistory.setUser(user);
                     res.status(200).json(find);
@@ -160,7 +165,7 @@ server.put('/rcategories/:userEmail', async (req, res) => {
 // Create category
 server.post('/pcategories/:userEmail', async (req, res) => {
     const userEmail = req.params.userEmail;
-    const { request, cat } = req.body;
+    const { request, cat, descriptionHistory } = req.body;
     try {
         const user = await User.findOne({
             where: {
@@ -174,7 +179,8 @@ server.post('/pcategories/:userEmail', async (req, res) => {
         })
         const newHistory = await History.create({
             request: request,
-            categoryId: cat
+            categoryId: cat,
+            description: descriptionHistory
         });
         await newHistory.setUser(user);
         res.status(200).json(findCreated);
@@ -186,7 +192,7 @@ server.post('/pcategories/:userEmail', async (req, res) => {
 // Remove opinion
 server.put('/ropinion/:userEmail', async (req, res) => {
     const userEmail = req.params.userEmail;
-    const { request, idOpinion } = req.body;
+    const { request, idOpinion, descriptionHistory } = req.body;
     try {
         const user = await User.findOne({
             where: {
@@ -205,7 +211,8 @@ server.put('/ropinion/:userEmail', async (req, res) => {
                     await find.save();
                     const newHistory = await History.create({
                         request: request,
-                        opinionId: idOpinion
+                        opinionId: idOpinion,
+                        description: descriptionHistory
                     });
                     await newHistory.setUser(user);
                     res.status(200).json(find);
@@ -219,7 +226,8 @@ server.put('/ropinion/:userEmail', async (req, res) => {
                     await find.save();
                     const newHistory = await History.create({
                         request: request,
-                        opinionId: idOpinion
+                        opinionId: idOpinion,
+                        description: descriptionHistory
                     });
                     await newHistory.setUser(user);
                     res.status(200).json(find);
