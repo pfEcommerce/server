@@ -1,5 +1,5 @@
 const { default: axios } = require('axios');
-const { User } = require('../db');
+const { User, History } = require('../db');
 require('dotenv').config();
 const server = require('express').Router();
 
@@ -19,6 +19,25 @@ server.get('/', async (req, res) => {
         }
     } catch (error) {
         console.log(error);
+    }
+});
+
+server.get('/admin/:userEmail',async (req, res) => {
+    const userEmail = req.params.userEmail;
+    try {
+        const data = await User.findOne({
+            where: {
+                email: userEmail
+            }, include: [{model:History}]
+        })
+        if (data) {
+            res.status(200).json(data)
+        }
+        else {
+            res.status(400).send('Wrong request')
+        }
+    } catch (error) {
+        console.log(error)
     }
 });
 
