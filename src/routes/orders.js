@@ -2,40 +2,37 @@ const { default: axios } = require('axios');
 const { Product, Category, Order, User } = require('../db');
 require('dotenv').config();
 const server = require('express').Router();
+const { Op } = require('sequelize')
 
-
-server.post('/:email', async (req, res) => {
-    const email = req.params.email;
-    const { price, productId } = req.body;
+server.post('/', async (req, res) => {
+    const email = req.body.data.email;
+    const price = req.body.data.price;
+    const productsId = req.body.data.productId 
+    console.log(req.body)
     try {
         // Busqueda user
         const user = await User.findOne({
             where: {
-                email: email
-            }
-        });
-        // Busqueda product
-        const searchProduct = await Product.findOne({
-            where: {
-                id: productId
+                email,
             }
         });
         // New Order
         const newOrder = await Order.create({
             price,
+            idProduct: productsId
         });
-        await newOrder.setProduct(searchProduct);
+
         await newOrder.setUser(user);
-        const less = await Product.findOne({
-            where: {
-                id: productId
+        //Si los encuentra, saca uno del stock y sube uno las ventas
+        const less = await Product.findAll({
+           where: {
+               idApi: {[Op.in]: [productsId]}
             }
-        });
-        let currentStock = await less.increment('stock',{by:1})
-        let currentSolds = await less.increment('solds',{by:1})
-        // Relaciones
-        // Resta de stock
-        res.status(200).send(newOrder);
+        }); 
+        
+        const stockDecrement = await less.decrement('stock',{by:1})
+        const soldsIncrement = await less.increment('solds',{by:1})
+        res.status(200).send('Order Created');
     }
     catch (err) {
         console.log(err)

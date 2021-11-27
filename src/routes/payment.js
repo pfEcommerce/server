@@ -7,7 +7,7 @@ const server = require('express').Router();
 server.post('/', async(req, res) => {
     const userEmail  = req.body.data.email;
     const userId = req.body.data.id;
-    console.log(userEmail)
+    
     try{
         const user = await User.findOne({
             where: {
@@ -18,7 +18,7 @@ server.post('/', async(req, res) => {
         const asignProductsBought = await user.update({
             productsBought: userId,
         }) 
-        console.log(asignProductsBought) 
+        
         res.status(200).send('Successfuly assigned products to user')
 
     } catch(err){
