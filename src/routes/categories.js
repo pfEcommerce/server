@@ -15,5 +15,26 @@ server.get('/', async (req, res) => {
     };
 });
 
+server.post('/addCategory', async (req, res) => {
+    const { name } = req.body;
+    // console.log(name);
+    try {
+        const findDuplicate = await Category.findAll({
+            where: {
+                name: name,
+            },
+        });
+        if (findDuplicate.length !== 0) {
+            res.send("Ya existe esa categoría");
+        } else {
+            await Category.create({
+                name: name,
+            });
+            res.send("Categoría Creada").status(200);
+        }
+    } catch (error) {
+        res.json(error);
+    }
+});
 
 module.exports = server;
