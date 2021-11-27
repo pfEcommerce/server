@@ -56,4 +56,18 @@ server.post('/updateCategory', async (req, res) => {
     }
 });
 
+server.post('/deleteCategory', async (req, res) => {
+    const { name } = req.body;
+    try {
+        await Category.destroy({
+            where: {
+                name: name,
+            },
+        });
+        res.send("Categoría eliminada");
+    } catch (error) {
+        res.json(error);
+    }
+});
+
 module.exports = server;
