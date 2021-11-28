@@ -22,8 +22,9 @@ server.post('/:userEmail', async (req, res) => {
             const generateOpinion = await Opinion.create({
                 name,
                 content,
-                revRating
+                revRating,
             });
+            console.log(generateOpinion)
             await searchUser.addOpinion(generateOpinion);
             await searchProduct.addOpinion(generateOpinion);
             await generateOpinion.setProduct(searchProduct);

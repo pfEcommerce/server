@@ -7,12 +7,12 @@ const cors = require('cors');
 const session = require('express-session');
 
 
-router.use(
+/* router.use(
     cors({
       origin: '*',
       credentials: true,
     })
-  );
+  ); */
 const products = require('./products');
 const categories = require('./categories');
 const orders = require('./orders');
