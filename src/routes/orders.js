@@ -8,7 +8,7 @@ server.post('/', async (req, res) => {
     const email = req.body.data.email;
     const price = req.body.data.price;
     const productsId = req.body.data.productId 
-    console.log(req.body)
+    
     try {
         // Busqueda user
         const user = await User.findOne({
@@ -24,14 +24,22 @@ server.post('/', async (req, res) => {
 
         await newOrder.setUser(user);
         //Si los encuentra, saca uno del stock y sube uno las ventas
-        const less = await Product.findAll({
-           where: {
-               idApi: {[Op.in]: [productsId]}
+        productsId.forEach(async e => {
+            const less = await Product.findAll({
+                where: {
+                    id: e
+                }    
+            })
+            
+            await less[0].increment('solds');
+            if(less[0].dataValues.stock > 0){
+                await less[0].decrement('stock')
+            }else {
+                console.log('There is no stock')
             }
-        }); 
+        })
         
-        const stockDecrement = await less.decrement('stock',{by:1})
-        const soldsIncrement = await less.increment('solds',{by:1})
+        
         res.status(200).send('Order Created');
     }
     catch (err) {
