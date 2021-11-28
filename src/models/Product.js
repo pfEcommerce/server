@@ -33,7 +33,7 @@ module.exports = (sequelize) => {
         },
         released: {
             type: DataTypes.DATE,
-            allowNull: false
+            allowNull: true
         },
         idApi: {
             type: DataTypes.INTEGER,
