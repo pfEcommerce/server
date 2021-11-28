@@ -72,36 +72,74 @@ server.post('/addProduct', async (req, res) => {
         description,
         image,
         categoryName,
-      } = req.body;
-    
-      if(price < 0 ) return res.json({ error: 'El valor de precio no puede ser menor a cero' })
-      if(stock < 0) return res.json({ error: 'El valor de stock no puede ser menor a cero' })
-    
-      try {
+    } = req.body;
+
+    if (price < 0) return res.json({ error: 'El valor de precio no puede ser menor a cero' })
+    if (stock < 0) return res.json({ error: 'El valor de stock no puede ser menor a cero' })
+
+    try {
         const [addProduct, created] = await Product.findOrCreate({
-          where: {
-            name,
-            price,
-            stock,
-            description,
-            image
-          },
-        });
-    
-        const findCategories = await Category.findAll({
-          where: {
-            name: {
-              [Op.in]: categoryName,
+            where: {
+                name,
+                price,
+                stock,
+                description,
+                image
             },
-          },
         });
-    
+
+        const findCategories = await Category.findAll({
+            where: {
+                name: {
+                    [Op.in]: categoryName,
+                },
+            },
+        });
+
         await addProduct.setCategories(findCategories);
-    
+
         return res.json(addProduct);
-      } catch (err) {
+    } catch (err) {
         console.log(err);
-      }
+    }
+});
+
+server.put('/:id', async (req, res) => {
+    let {
+        name,
+        price,
+        stock,
+        description,
+        image,
+        categoryName,
+    } = req.body;
+
+    let idProduct = req.params.id;
+
+    if (price < 0) return res.json({ error: 'El valor de precio no puede ser menor a cero' })
+    if (stock < 0) return res.json({ error: 'El valor de stock no puede ser menor a cero' })
+
+    const product = await Product.findOne({
+        where: {
+            id: idProduct
+        },
+    });
+    if (product) {
+        if (name) await product.update({ name: name });
+        if (price) await product.update({ price: price });
+        if (stock || stock === 0) await product.update({ stock: stock });
+        if (description) await product.update({ description: description });
+        if (image) await product.update({ image: image });
+
+        if (categoryName) {
+            product.setCategories(categoryName);
+        }
+        res.status(200);
+        return res.json(product);
+    } else {
+        res.status(400);
+        return res.json({ error: 'Producto no encontrado' });
+    }
 });
 
 module.exports = server;
