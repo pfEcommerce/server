@@ -7,8 +7,14 @@ module.exports = (sequelize) => {
             allowNull: false,
         },
         paymentId: {
-            type: DataTypes.TEXT,
+            type: DataTypes.UUID,
             allowNull: true,
         },
+        idProduct: {
+            type: DataTypes.ARRAY(DataTypes.JSON),
+            allowNull: false
+
+        }
+        
     });
 };

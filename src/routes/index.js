@@ -21,6 +21,7 @@ const opinions = require('./opinions');
 const wish = require('./wish');
 const spAdmin = require('./superAdmin');
 const adRoutes = require('./adminRoutes')
+const payment = require('./payment');
 
 router.use('/products', products);
 router.use('/categories', categories);
@@ -30,5 +31,6 @@ router.use('/opinions', opinions);
 router.use('/wishes', wish);
 router.use('/spAdmin', spAdmin);
 router.use('/adRoutes', adRoutes);
+router.use('/payment', payment);
 
 module.exports = router;
