@@ -12,33 +12,30 @@ const {
 
 
 server.post('/', (req, res) => {
-    
-    console.log(EMAIL)
+
     let mailTransporter = nodemailer.createTransport({
         host: 'smtp.ethereal.email',
         port: 587,
         auth: {
-            user: 'anita.blick75@ethereal.email',
-            pass: 'H5pv2DHHQShKXnvmWq'
+            user: EMAIL,
+            pass: EMAIL_PASSWORD
         }
     });
 
     let mailDetails = {
-        from: 'anita.blick75@ethereal.email',
-        to: 'anita.blick75@ethereal.email',
+        from: EMAIL,
+        to: EMAIL,
         subject: 'Test mail',
-        text: 'testTESTtest'
+        text: 'Node.js testing mail'
     };
 
     mailTransporter.sendMail(mailDetails, function (err, data) {
         if (err) {
             res.status(400).send(err);
         } else {
-            console.log('Email sent successfully');
             res.sendStatus(200)
         }
     });
-
 })
 
 module.exports = server;
