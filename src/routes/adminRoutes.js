@@ -191,8 +191,11 @@ server.post('/pcategories/:userEmail', async (req, res) => {
 
 // Remove opinion
 server.put('/ropinion/:userEmail', async (req, res) => {
+    console.log(req.body)
     const userEmail = req.params.userEmail;
+    console.log(userEmail)
     const { request, idOpinion, descriptionHistory } = req.body;
+    
     try {
         const user = await User.findOne({
             where: {

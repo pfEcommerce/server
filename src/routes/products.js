@@ -47,15 +47,11 @@ server.get('/:id', async (req, res) => {
                 id: paramsId
             },
             include: [
-                {
-                    model: Category,
-                    attributes: ['name']
-                },
-                {
-                    model: Opinion,
-                    attributes: ['content', 'revRating', 'name', "userEmail"]
-                }
-            ]
+                {model: Category,
+                attributes: ['name']},
+                {model: Opinion, 
+                attributes: ["id",'content', 'revRating','name',"userEmail","isActive","productId"]}
+                ]
         });
         res.status(200).json(data)
     }

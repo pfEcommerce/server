@@ -36,7 +36,7 @@ const cargaUsers = async () => {
     }
 };
 
-const cargaOrders = async () => {
+/* const cargaOrders = async () => {
     try {
         const ordersPromise = testOrders.map(async (e) => {
             const response = await axios.post(
@@ -51,19 +51,19 @@ const cargaOrders = async () => {
     } catch (error) {
         console.log(error);
     }
-};
+}; */
 
 const allCharges = async () => {
     await allData();
     await cargaUsers();
-    setTimeout(cargaOrders, 1000, "orders");
+    /* setTimeout(cargaOrders, 1000, "orders"); */
 };
 
 // Syncing all the models at once.
 conn.sync({
     force: true
 }).then(async () => {
-    await allCharges();
+     await allCharges();  
     server.listen(process.env.PORT, () => {
         console.log(`%s listening`); // eslint-disable-line no-console
     });

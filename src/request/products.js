@@ -16,6 +16,10 @@ const apiProduct = async () => {
         return Math.floor(Math.random() * (50 - 5) + 5);
     }
 
+    function setDiscount(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
     const getDetails = async (e) => {
         const result = await axios.get(
             `https://api.rawg.io/api/games/${e.id}?key=${API_KEY}`
@@ -40,6 +44,7 @@ const apiProduct = async () => {
                 platforms: api.data.results[i].platforms,
                 imgs: api.data.results[i].short_screenshots,
                 description: await getDetails(api.data.results[i]),
+                discount: setDiscount(0,50)
             });
         }
 
@@ -69,6 +74,7 @@ const apiProduct = async () => {
                 description: dataApi[i].description,
                 imgs: dataApi[i].imgs,
                 platforms: dataApi[i].platforms,
+                discount: dataApi[i].discount
             });
         }
 

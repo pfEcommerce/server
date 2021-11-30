@@ -1,4 +1,4 @@
-const testOrders =[
+/* const testOrders =[
     {
         "price": 6,
         "emailUserTest":"hildegaard.hachmin@gmail.com",
@@ -39,11 +39,11 @@ const testOrders =[
         "price": 9,
         "emailUserTest": "janey.nahum@gmail.com",
         "productId":9
-    },{
+    }, {
         "price": 15,
         "emailUserTest": "janey.nahum@gmail.com",
         "productId":4
-    },{
+    } ,{
         "price": 17,
         "emailUserTest": "janey.nahum@gmail.com",
         "productId":7
@@ -51,7 +51,7 @@ const testOrders =[
         "price": 9,
         "emailUserTest": "janey.nahum@gmail.com",
         "productId":10
-    },{
+    } ,{
         "price": 4,
         "emailUserTest":"leontine.alexandr@gmail.com",
         "productId":2
@@ -151,4 +151,4 @@ const testOrders =[
 ]
 
 
-module.exports = testOrders
+module.exports = testOrders */
