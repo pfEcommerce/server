@@ -61,7 +61,7 @@ const allCharges = async () => {
 
 // Syncing all the models at once.
 conn.sync({
-       force: true     
+    force: true
 }).then(async () => {
      await allCharges();  
     server.listen(process.env.PORT, () => {

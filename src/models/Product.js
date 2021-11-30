@@ -19,6 +19,11 @@ module.exports = (sequelize) => {
             allowNull:true,
             defaultValue:0
         },
+        discount:{
+            type:DataTypes.INTEGER,
+            allowNull:true,
+            defaultValue:0
+        },
         description: {
             type: DataTypes.TEXT,
             allowNull: false,
