@@ -19,7 +19,7 @@ dotenv.config();
 if (process.env.PORT == 3001) {
     local = "http://localhost:3001";
 } else {
-    local = "https://scientiapfdeploy.herokuapp.com";
+    local = "https://games-ecommerce.herokuapp.com/";
 }
 
 const cargaUsers = async () => {
@@ -61,9 +61,9 @@ const allCharges = async () => {
 
 // Syncing all the models at once.
 conn.sync({
-        /* force: true  */   
+    force: true
 }).then(async () => {
-     /* await allCharges(); */   
+     await allCharges();    
     server.listen(process.env.PORT, () => {
         console.log(`%s listening`); // eslint-disable-line no-console
     });

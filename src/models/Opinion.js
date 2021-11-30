@@ -13,6 +13,10 @@ module.exports = (sequelize) => {
         revRating: {
             type: DataTypes.ENUM('1','2','3','4','5'),
             allowNull: false
+        },
+        isActive: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: true
         }
     });
 };

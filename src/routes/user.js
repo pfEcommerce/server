@@ -7,7 +7,7 @@ const server = require('express').Router();
 
 // Create user
 server.post('/login', async (req, res) => {
-    const { picture, email, sub, family_name, given_name, nickname, testGoogle, roleAdmin, loader, phone } = req.body;
+    const { picture, email, sub, family_name, given_name, nickname, testGoogle, roleAdmin, loader, phone, superAdmin } = req.body;
     const isGoogle = sub?sub.slice(0, 6):testGoogle === true?'google':null;
     //console.log(req.body)
     try {
@@ -29,7 +29,8 @@ server.post('/login', async (req, res) => {
                     photo: picture,
                     email: email,
                     isGoogle: true,
-                    roleAdmin: roleAdmin?roleAdmin:false
+                    roleAdmin: roleAdmin?roleAdmin:false,
+                    superAdmin: superAdmin?superAdmin:false
                 });
                 console.log('created succes')
                 const searchCreatedUser = await User.findOne({
@@ -59,7 +60,8 @@ server.post('/login', async (req, res) => {
                         lastName: family_name,
                         email: email,
                         phone: phone,
-                        roleAdmin: roleAdmin
+                        roleAdmin: roleAdmin,
+                        superAdmin: superAdmin?superAdmin:false
                     });
                     console.log('created auth0 succes')
                     const searchCreatedUser = await User.findOne({

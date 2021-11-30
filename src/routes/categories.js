@@ -15,41 +15,59 @@ server.get('/', async (req, res) => {
     };
 });
 
-// Create category
-server.post('/:cat', async (req, res) => {
-    const cat = req.params.cat;
+server.post('/addCategory', async (req, res) => {
+    const { name } = req.body;
+    // console.log(name);
     try {
-        const findCreated = await Category.findOrCreate({
+        const findDuplicate = await Category.findAll({
             where: {
-                name: cat
-            }
-        })
-        res.status(200).json(findCreated);
-    } catch (error) {
-        console.error(error.message);
-    }
-});
-
-// Remove category
-server.put('/:cat', async (req, res) => {
-    const cat = req.params.cat;
-    try {
-        const find = await Category.findOne({
-            where: {
-                name: cat
-            }
+                name: name,
+            },
         });
-        if (find && find.isActive) {
-            await find.update({isActive: false});
-            await find.save();
-            res.status(200).json(find);
+        if (findDuplicate.length !== 0) {
+            res.send("Ya existe esa categoría");
         } else {
-            res.sendStatus(400);
+            await Category.create({
+                name: name,
+            });
+            res.send("Categoría Creada").status(200);
         }
     } catch (error) {
-        console.error(error.message);
+        res.json(error);
     }
 });
 
+server.post('/updateCategory', async (req, res) => {
+    try {
+        let { newName, name } = req.body;
+        console.log(newName);
+        let category = await Category.findOne({
+            where: {
+                name: name,
+            },
+        });
+
+        category.name = newName;
+        await category.save();
+
+        res.send("Categoría modificada");
+    } catch (error) {
+        res.json(error);
+    }
+});
+
+server.post('/deleteCategory', async (req, res) => {
+    const { name } = req.body;
+    try {
+        await Category.destroy({
+            where: {
+                name: name,
+            },
+        });
+        res.send("Categoría eliminada");
+    } catch (error) {
+        res.json(error);
+    }
+});
 
 module.exports = server;
