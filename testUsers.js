@@ -80,7 +80,7 @@ const testUsers = [{
 	"email": "shirlee.douglass@gmail.com",
 	"loader":true
 },{
-	"roleAdmin": false,
+	"roleAdmin": true,
 	"testGoogle": true,
 	"phone": "6666664",
 	"given_name": "Janey",

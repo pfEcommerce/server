@@ -46,15 +46,32 @@ server.post('/', async (req, res) => {
         console.log(err)
     }
 
-    server.get('/', async (req, res) => {
-        try{
-            const allOrders = await Order.findAll();
-            res.status(200).json(allOrders);
-        }
-        catch (err) {
-            console.log(err)
-        }
-    });
 });
+server.get('/', async (req, res) => {
+    try{
+        const allOrders = await Order.findAll();
+        res.status(200).json(allOrders);
+    }
+    catch (err) {
+        console.log(err)
+    }
+});
+
+server.post('/delete', (req, res) => {
+    const { id } = req.body;
+    console.log(req.body)
+    try{
+        const order = Order.findAll({
+            where: {
+                id
+            }
+        })
+        const deleted = order.destroy()
+
+        res.status(200).send(id)
+    } catch(err){
+        res.status(404).send(err)
+    }
+})
 
 module.exports = server;
