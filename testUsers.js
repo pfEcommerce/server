@@ -82,6 +82,7 @@ const testUsers = [{
 },{
 	"roleAdmin": true,
 	"testGoogle": true,
+	"superAdmin": true,
 	"phone": "6666664",
 	"given_name": "Janey",
 	"family_name": "Nahum",

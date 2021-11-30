@@ -57,7 +57,7 @@ server.get('/', async (req, res) => {
     }
 });
 
-server.post('/delete', (req, res) => {
+/* server.post('/delete', (req, res) => {
     const { id } = req.body;
     console.log(req.body)
     try{
@@ -72,6 +72,6 @@ server.post('/delete', (req, res) => {
     } catch(err){
         res.status(404).send(err)
     }
-})
+}) */
 
 module.exports = server;
