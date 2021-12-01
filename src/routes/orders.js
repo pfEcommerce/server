@@ -49,13 +49,32 @@ server.post('/', async (req, res) => {
 });
 server.get('/', async (req, res) => {
     try{
+        
         const allOrders = await Order.findAll();
         res.status(200).json(allOrders);
-    }
-    catch (err) {
+        
+    }catch (err) {
         console.log(err)
     }
+    
 });
+
+server.get('/searchOrders', async(req, res) => {
+        console.log(req.query)
+    
+        const ordersInDb = await Order.findAll({
+            where: {
+                userEmail: email
+            }
+        })
+        console.log(ordersInDb)
+        let private = ordersInDb.map(p =>
+            p.dataValues
+        );
+        res.status(200).json(private)
+             
+    
+})
 
 /* server.post('/delete', (req, res) => {
     const { id } = req.body;

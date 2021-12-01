@@ -67,9 +67,9 @@ server.post('/addProduct', async (req, res) => {
         stock,
         description,
         image,
-        categoryName,
+        category,
     } = req.body;
-
+    console.log(req.body)
     if (price < 0) return res.json({ error: 'El valor de precio no puede ser menor a cero' })
     if (stock < 0) return res.json({ error: 'El valor de stock no puede ser menor a cero' })
 
@@ -84,15 +84,16 @@ server.post('/addProduct', async (req, res) => {
             },
         });
 
-        const findCategories = await Category.findAll({
-            where: {
-                name: {
-                    [Op.in]: categoryName,
-                },
-            },
-        });
+        category?.forEach(async e => {
+            const findCategories = await Category.findAll({
+                where: {
+                    name: e
+                }
+            })
+            await addProduct.setCategories(findCategories);
+        })
+        
 
-        await addProduct.setCategories(findCategories);
 
         return res.json(addProduct);
     } catch (err) {

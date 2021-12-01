@@ -8,7 +8,7 @@ const server = require('express').Router();
 // Post de producto
 server.post('/pproduct/:userEmail', async (req, res) => {
     const userEmail = req.params.userEmail
-    const { name, released, image, price, stock, description, categories, request, descriptionHistory } = req.body;
+    const { name, image, price, stock, description, categories, request } = req.body;
     try {
         const search = await Product.findOne({
             where: {
@@ -25,7 +25,6 @@ server.post('/pproduct/:userEmail', async (req, res) => {
         });
         const created = await Product.create({
             name,
-            released,
             image,  
             price, 
             stock,  
@@ -42,7 +41,7 @@ server.post('/pproduct/:userEmail', async (req, res) => {
         const newHistory = await History.create({
             request: request,
             productId: created.id,
-            description: descriptionHistory
+            description: ''
         });
         await newHistory.setUser(user);
         res.status(200).json(created)

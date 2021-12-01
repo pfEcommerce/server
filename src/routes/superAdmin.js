@@ -41,7 +41,7 @@ server.get('/admin/:userEmail',async (req, res) => {
     }
 });
 
-server.put('/:userEmail', async (req, res) => {
+server.post('/:userEmail', async (req, res) => {
     const { userEmail } = req.params;
     const { solicitud } = req.body;
     try {
