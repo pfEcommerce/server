@@ -59,38 +59,5 @@ server.get('/', async (req, res) => {
     
 });
 
-server.get('/searchOrders', async(req, res) => {
-        console.log(req.query)
-    
-        const ordersInDb = await Order.findAll({
-            where: {
-                userEmail: email
-            }
-        })
-        console.log(ordersInDb)
-        let private = ordersInDb.map(p =>
-            p.dataValues
-        );
-        res.status(200).json(private)
-             
-    
-})
-
-/* server.post('/delete', (req, res) => {
-    const { id } = req.body;
-    console.log(req.body)
-    try{
-        const order = Order.findAll({
-            where: {
-                id
-            }
-        })
-        const deleted = order.destroy()
-
-        res.status(200).send(id)
-    } catch(err){
-        res.status(404).send(err)
-    }
-}) */
 
 module.exports = server;
