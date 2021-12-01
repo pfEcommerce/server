@@ -100,42 +100,122 @@ server.post('/addProduct', async (req, res) => {
     }
 });
 
-server.put('/:id', async (req, res) => {
-    let {
+// server.put('/:id', async (req, res) => {
+//     let {
+//         name,
+//         price,
+//         stock,
+//         description,
+//         image,
+//         categoryName,
+//     } = req.body;
+
+//     let idProduct = req.params.id;
+
+//     if (price < 0) return res.json({ error: 'El valor de precio no puede ser menor a cero' })
+//     if (stock < 0) return res.json({ error: 'El valor de stock no puede ser menor a cero' })
+
+//     const product = await Product.findOne({
+//         where: {
+//             id: idProduct
+//         },
+//     });
+//     if (product) {
+//         if (name) await product.update({ name: name });
+//         if (price) await product.update({ price: price });
+//         if (stock || stock === 0) await product.update({ stock: stock });
+//         if (description) await product.update({ description: description });
+//         if (image) await product.update({ image: image });
+
+//         if (categoryName) {
+//             product.setCategories(categoryName);
+//         }
+//         res.status(200);
+//         return res.json(product);
+//     } else {
+//         res.status(400);
+//         return res.json({ error: 'Producto no encontrado' });
+//     }
+// });
+server.put('/:id', (req, res, next) => {
+    const { id } = req.params;
+    const { name, price, stock, description, image } = req.body;
+
+    Product.update({
         name,
         price,
         stock,
         description,
-        image,
-        categoryName,
-    } = req.body;
+        image
+    }, {
+        where: { id }
+    })
+        .then(data => {
+            if (!data) {
+                return res.status(400).send({ error: 'Product Not Found' });
+            }
 
-    let idProduct = req.params.id;
 
-    if (price < 0) return res.json({ error: 'El valor de precio no puede ser menor a cero' })
-    if (stock < 0) return res.json({ error: 'El valor de stock no puede ser menor a cero' })
+            return Product.findByPk(id, { include: [Category] });
+        })
+        .then(product => {
+            return res.send(product);
+        })
+        .catch(next);
+});
+server.post('/:idProducto/category/:idCategoria', (req, res) => {
+    const idProducto = req.params.idProducto;
+    const idCategoria = req.params.idCategoria;
 
-    const product = await Product.findOne({
-        where: {
-            id: idProduct
-        },
-    });
-    if (product) {
-        if (name) await product.update({ name: name });
-        if (price) await product.update({ price: price });
-        if (stock || stock === 0) await product.update({ stock: stock });
-        if (description) await product.update({ description: description });
-        if (image) await product.update({ image: image });
+    var product;
+    Product.findByPk(idProducto)
+        .then((data) => {
+            product = data;
+            return Category.findByPk(idCategoria);
+        })
+        .then(async (category) => {
+            await product.addCategories(category);
 
-        if (categoryName) {
-            product.setCategories(categoryName);
-        }
-        res.status(200);
-        return res.json(product);
-    } else {
-        res.status(400);
-        return res.json({ error: 'Producto no encontrado' });
-    }
+            Product.findByPk(idProducto, { include: [Category] }).then(data => {
+                res.send({ ...data.dataValues });
+            });
+        })
+        .catch(err => {
+            res.send(err);
+        });
+});
+server.delete('/:idProducto/category/:idCategoria', (req, res) => {
+    const idProducto = req.params.idProducto;
+    const idCategoria = req.params.idCategoria;
+
+    var product;
+    Product.findByPk(idProducto)
+        .then((data) => {
+            product = data;
+            return Category.findByPk(idCategoria);
+        })
+        .then(async (category) => {
+            await product.removeCategories(category);
+
+            Product.findByPk(idProducto, { include: [Category] }).then(data => {
+                res.send({ ...data.dataValues });
+            });
+        })
+        .catch(err => {
+            res.send(err);
+        });
+});
+
+server.post('/category', (req, res, next) => {
+    const { name } = req.body;
+
+    Category.create({
+        name: name
+    })
+        .then((category) => {
+            res.send({ ...category.dataValues });
+        })
+        .catch(next);
 });
 
 module.exports = server;

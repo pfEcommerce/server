@@ -8,7 +8,7 @@ const {
 } = process.env;
 
 let sequelize =
-    /* process.env.NODE_ENV === "production"
+    process.env.NODE_ENV === "production"
     ? new Sequelize({
         database: DB_NAME,
         dialect: "postgres",
@@ -24,14 +24,14 @@ let sequelize =
         dialectOptions: {
             ssl: {
             require: true,
-            // Ref.: https://github.com/brianc/node-postgres/issues/2009
+            /* Ref.: https://github.com/brianc/node-postgres/issues/2009 */
             rejectUnauthorized: false,
             },
             keepAlive: true,
         },
         ssl: true,
     })
-    : */ new Sequelize(
+    : new Sequelize(
         `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/ecommerce`,
         { logging: false, native: false }
     );
