@@ -71,7 +71,7 @@ server.post('/addProduct', async (req, res) => {
         stock,
         description,
         image,
-        categoryName,
+        category,
     } = req.body;
 
     if (price < 0) return res.json({ error: 'El valor de precio no puede ser menor a cero' })
@@ -91,7 +91,7 @@ server.post('/addProduct', async (req, res) => {
         const findCategories = await Category.findAll({
             where: {
                 name: {
-                    [Op.in]: categoryName,
+                    [Op.in]: category,
                 },
             },
         });
@@ -104,43 +104,6 @@ server.post('/addProduct', async (req, res) => {
     }
 });
 
-// server.put('/:id', async (req, res) => {
-//     let {
-//         name,
-//         price,
-//         stock,
-//         description,
-//         image,
-//         categoryName,
-//     } = req.body;
-
-//     let idProduct = req.params.id;
-
-//     if (price < 0) return res.json({ error: 'El valor de precio no puede ser menor a cero' })
-//     if (stock < 0) return res.json({ error: 'El valor de stock no puede ser menor a cero' })
-
-//     const product = await Product.findOne({
-//         where: {
-//             id: idProduct
-//         },
-//     });
-//     if (product) {
-//         if (name) await product.update({ name: name });
-//         if (price) await product.update({ price: price });
-//         if (stock || stock === 0) await product.update({ stock: stock });
-//         if (description) await product.update({ description: description });
-//         if (image) await product.update({ image: image });
-
-//         if (categoryName) {
-//             product.setCategories(categoryName);
-//         }
-//         res.status(200);
-//         return res.json(product);
-//     } else {
-//         res.status(400);
-//         return res.json({ error: 'Producto no encontrado' });
-//     }
-// });
 server.put('/:id', (req, res, next) => {
     const { id } = req.params;
     const { name, price, stock, description, image } = req.body;
@@ -156,7 +119,7 @@ server.put('/:id', (req, res, next) => {
     })
         .then(data => {
             if (!data) {
-                return res.status(400).send({ error: 'Product Not Found' });
+                return res.status(400).send({ error: 'Producto no encontrado' });
             }
 
 
@@ -167,6 +130,7 @@ server.put('/:id', (req, res, next) => {
         })
         .catch(next);
 });
+
 server.post('/:idProducto/category/:idCategoria', (req, res) => {
     const idProducto = req.params.idProducto;
     const idCategoria = req.params.idCategoria;
@@ -188,6 +152,7 @@ server.post('/:idProducto/category/:idCategoria', (req, res) => {
             res.send(err);
         });
 });
+
 server.delete('/:idProducto/category/:idCategoria', (req, res) => {
     const idProducto = req.params.idProducto;
     const idCategoria = req.params.idCategoria;
@@ -210,16 +175,15 @@ server.delete('/:idProducto/category/:idCategoria', (req, res) => {
         });
 });
 
-server.post('/category', (req, res, next) => {
-    const { name } = req.body;
-
-    Category.create({
-        name: name
+server.delete('/:id', (req, res, next) => {
+    const { id } = req.params;
+    Product.destroy({
+        where: { id }
     })
-        .then((category) => {
-            res.send({ ...category.dataValues });
+        .then((data) => {
+            if (data) return res.send({ productDeleted: Number(id) });
+            return res.status(404).send({ error: "Producto no encontrado" });
         })
         .catch(next);
 });
-
 module.exports = server;
