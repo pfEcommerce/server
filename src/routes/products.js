@@ -191,25 +191,25 @@ server.post('/:idProducto/category/:idCategoria', (req, res) => {
 server.delete('/:idProducto/category/:idCategoria', (req, res) => {
     const idProducto = req.params.idProducto;
     const idCategoria = req.params.idCategoria;
-  
+
     var product;
     Product.findByPk(idProducto)
-      .then((data) => {
-        product = data;
-        return Category.findByPk(idCategoria);
-      })
-      .then(async (category) => {
-        await product.removeCategories(category);
-  
-        Product.findByPk(idProducto, { include: [Category] }).then(data => {
-          res.send({ ...data.dataValues });
+        .then((data) => {
+            product = data;
+            return Category.findByPk(idCategoria);
+        })
+        .then(async (category) => {
+            await product.removeCategories(category);
+
+            Product.findByPk(idProducto, { include: [Category] }).then(data => {
+                res.send({ ...data.dataValues });
+            });
+        })
+        .catch(err => {
+            res.send(err);
         });
-      })
-      .catch(err => {
-        res.send(err);
-      });
-  });
-  
+});
+
 server.post('/category', (req, res, next) => {
     const { name } = req.body;
 
