@@ -16,7 +16,7 @@ const {
 const dotenv = require("dotenv");
 dotenv.config();
 
-if (process.env.PORT == 3001) {
+if (process.env.PORT === 3001) {
     local = "http://localhost:3001";
 } else {
     local = "https://games-ecommerce.herokuapp.com/";
@@ -61,7 +61,7 @@ const allCharges = async () => {
 
 // Syncing all the models at once.
 conn.sync({
-    force: true
+    force: false
 }).then(async () => {
      await allCharges();  
     server.listen(process.env.PORT, () => {
