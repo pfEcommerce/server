@@ -16,11 +16,11 @@ const {
 const dotenv = require("dotenv");
 dotenv.config();
 
-// if (process.env.PORT === 3001) {
+if (process.env.PORT === 3001) {
     local = "http://localhost:3001";
-// } else {
-//     local = "https://games-ecommerce.herokuapp.com/";
-// }
+} else {
+    local = "https://games-ecommerce.herokuapp.com/";
+}
 
 const cargaUsers = async () => {
     try {
@@ -64,7 +64,7 @@ conn.sync({
     force: true
 }).then(async () => {
      await allCharges();  
-    server.listen(3001, () => {
+    server.listen(process.env.PORT, () => {
         console.log(`%s listening`); // eslint-disable-line no-console
     });
 });
