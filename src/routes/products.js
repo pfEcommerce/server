@@ -8,6 +8,12 @@ const server = require('express').Router();
 // Get general
 server.get('/', async (req, res) => {
     try {
+        const outOfStock = await Product.findAll({
+            where: {
+                stock: 0
+            }
+        })
+        outOfStock.forEach(async el => await el.update({isActive: false}))
         if (!req.query.name) {
             const data = await Product.findAll({
                 include: [
