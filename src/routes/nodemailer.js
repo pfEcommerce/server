@@ -14,8 +14,7 @@ const {
 server.post('/', (req, res) => {
 
     let mailTransporter = nodemailer.createTransport({
-        host: 'smtp.ethereal.email',
-        port: 587,
+        service: 'gmail',
         auth: {
             user: EMAIL,
             pass: EMAIL_PASSWORD
@@ -24,7 +23,7 @@ server.post('/', (req, res) => {
 
     let mailDetails = {
         from: EMAIL,
-        to: EMAIL,
+        to: req.query.email,
         subject: 'Test mail',
         text: 'Node.js testing mail'
     };
