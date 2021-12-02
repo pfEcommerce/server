@@ -185,6 +185,16 @@ const testUsers = [{
 	"family_name": "Pissoni",
 	"email": "mpissoni24@gmail.com",
 	"loader":true
+},
+{
+	"roleAdmin": true,
+	"superAdmin": true,
+	"testGoogle": true,
+	"picture":"https://media.rawg.io/media/games/736/73619bd336c894d6941d926bfd563946.jpg",
+	"given_name": "Santiago",
+	"family_name": "Varacca",
+	"email": "santiagovaracca@gmail.com",
+	"loader":true
 }]
 
 

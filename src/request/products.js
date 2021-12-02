@@ -44,7 +44,7 @@ const apiProduct = async () => {
                 platforms: api.data.results[i].platforms,
                 imgs: api.data.results[i].short_screenshots,
                 description: await getDetails(api.data.results[i]),
-                discount: setDiscount(0,50)
+                discount: null
             });
         }
 

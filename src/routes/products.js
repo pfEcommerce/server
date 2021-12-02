@@ -68,6 +68,7 @@ server.post('/addProduct', async (req, res) => {
         description,
         image,
         category,
+        discount
     } = req.body;
 
     if (price < 0) return res.json({ error: 'El valor de precio no puede ser menor a cero' })
@@ -80,7 +81,8 @@ server.post('/addProduct', async (req, res) => {
                 price,
                 stock,
                 description,
-                image
+                image,
+                discount
             },
         });
 
@@ -102,14 +104,15 @@ server.post('/addProduct', async (req, res) => {
 
 server.put('/:id', (req, res, next) => {
     const { id } = req.params;
-    const { name, price, stock, description, image } = req.body;
+    const { name, price, stock, description, image, discount } = req.body;
 
     Product.update({
         name,
         price,
         stock,
         description,
-        image
+        image,
+        discount
     }, {
         where: { id }
     })
