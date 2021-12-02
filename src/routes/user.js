@@ -4,6 +4,16 @@ require('dotenv').config();
 const server = require('express').Router();
 
 
+// Get general
+server.get('/', async (req, res) => {
+    try {
+        const data = await User.findAll()
+        res.status(200).json(data)
+    }
+    catch (err) {
+        console.log(err)
+    }
+});
 
 // Create user
 server.post('/login', async (req, res) => {
@@ -95,6 +105,22 @@ server.post('/login', async (req, res) => {
         console.log(error);
     };
 });
+
+server.post('/delUser/:userEmail', async (req, res) => {
+    const { userEmail } = req.params;
+    const data = await User.findOne({
+        where: {
+            email: userEmail
+        }
+    })
+    if (data) {
+        await data.destroy();
+        res.status(200).send('Destroy succes')
+    }
+    else {
+        res.status(400).send('Wrong user')
+    }
+})
 
 
 
