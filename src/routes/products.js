@@ -4,16 +4,9 @@ require('dotenv').config();
 const { Op } = require('sequelize')
 const server = require('express').Router();
 
-
 // Get general
 server.get('/', async (req, res) => {
     try {
-        const outOfStock = await Product.findAll({
-            where: {
-                stock: 0
-            }
-        })
-        outOfStock.forEach(async el => await el.update({isActive: false}))
         if (!req.query.name) {
             const data = await Product.findAll({
                 include: [
@@ -53,11 +46,15 @@ server.get('/:id', async (req, res) => {
                 id: paramsId
             },
             include: [
-                {model: Category,
-                attributes: ['name']},
-                {model: Opinion, 
-                attributes: ["id",'content', 'revRating','name',"userEmail","isActive","productId"]}
-                ]
+                {
+                    model: Category,
+                    attributes: ['name']
+                },
+                {
+                    model: Opinion,
+                    attributes: ['content', 'revRating', 'name', "userEmail"]
+                }
+            ]
         });
         res.status(200).json(data)
     }
@@ -70,11 +67,11 @@ server.post('/addProduct', async (req, res) => {
     let {
         name,
         price,
+        discount,
         stock,
         description,
         image,
         category,
-        discount
     } = req.body;
 
     if (price < 0) return res.json({ error: 'El valor de precio no puede ser menor a cero' })
@@ -85,10 +82,10 @@ server.post('/addProduct', async (req, res) => {
             where: {
                 name,
                 price,
+                discount,
                 stock,
                 description,
-                image,
-                discount
+                image
             },
         });
 
@@ -110,15 +107,15 @@ server.post('/addProduct', async (req, res) => {
 
 server.put('/:id', (req, res, next) => {
     const { id } = req.params;
-    const { name, price, stock, description, image, discount } = req.body;
+    const { name, price, discount, stock, description, image } = req.body;
 
     Product.update({
         name,
         price,
+        discount,
         stock,
         description,
-        image,
-        discount
+        image
     }, {
         where: { id }
     })
