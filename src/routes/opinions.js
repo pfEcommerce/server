@@ -7,6 +7,7 @@ const server = require('express').Router();
 server.post('/:userEmail', async (req, res) => {
     const userEmail = req.params.userEmail;
     const { content, revRating, prodId, name } = req.body;
+    console.log(req.body)
     try {
         const searchUser = await User.findOne({
             where: {
@@ -22,7 +23,7 @@ server.post('/:userEmail', async (req, res) => {
             const generateOpinion = await Opinion.create({
                 name,
                 content,
-                revRating,
+                revRating: `${revRating}`,
             });
             console.log(generateOpinion)
             await searchUser.addOpinion(generateOpinion);
